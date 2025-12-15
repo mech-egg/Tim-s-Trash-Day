@@ -1,0 +1,35 @@
+--update
+
+function update_start()
+	if btnp(🅾️) then
+		gamestart()
+	end
+end
+
+function gamestart()
+	--music
+	--state
+	state='game'
+	units={}
+	enms={}
+	flts={}
+	enmfreq=120
+end
+
+function update_game()
+	units_logic()
+	enms_logic()
+	update_col()
+	friend_col(units)
+	friend_col(enms)
+
+	if btnp(🅾️) then
+		state='over'
+	end
+end
+
+function update_over()
+	if btnp(🅾️) then 
+		state='start'
+	end
+end

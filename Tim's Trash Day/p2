@@ -1,0 +1,53 @@
+--draw
+
+--green(ui/hud)
+
+--yellow(selector)
+
+--orange(enemy information
+
+function draw_start()
+	cls(17)
+	print(t)
+	pal()
+	cprint('untitled game #1',64,40,6)
+	if t%30>10 then
+		pal(6,7)
+	end
+	cprint('press 🅾️ to begin',64,60,6)
+end
+
+function draw_game()
+	map()
+	draw_units()
+	draw_enms()
+	draw_floats()
+end
+
+function draw_over()
+	cls(17)
+	print(t)
+	pal()
+	cprint('your power source',64,40,8)
+	cprint('has been extinguished',64,50,8)
+	if t%30>10 then
+		pal(8,7)
+	end
+	cprint('press 🅾️ to be reborn',64,80,8)
+end
+
+
+function draw_floats()
+	for myfl in all(flts) do
+	local colr=7
+	if t%4<2 then
+		colr=8
+	end
+		cprint(myfl.txt,myfl.x,myfl.y,colr)
+		myfl.y+=(myfl.posy-myfl.y)/7
+		myfl.age+=1
+		if myfl.age>=30 then
+			del(flts,myfl)	
+		end
+	end
+end

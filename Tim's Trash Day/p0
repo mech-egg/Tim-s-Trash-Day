@@ -1,0 +1,34 @@
+--framework
+
+--can do
+--crits
+
+function _init()
+	state='start'
+	t=0
+	debug=0
+end
+
+function _update()
+	t+=1
+	
+	if state=='start' then
+		update_start()
+	elseif state=='game' then
+		update_game()
+	elseif state=='over' then
+		update_over()
+	end
+end
+
+function _draw()
+	cls()
+	if state=='start' then
+		draw_start()
+	elseif state=='game' then
+		draw_game()
+	elseif state=='over' then
+		draw_over()
+	end
+	print(debug,6,120,7)
+end

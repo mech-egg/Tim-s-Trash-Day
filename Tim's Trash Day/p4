@@ -1,0 +1,104 @@
+--units
+
+function draw_units()
+	for lguy in all(units) do
+		drawspr(lguy)
+	end
+end
+
+function spawn_units()
+	 local lguy=makespr()
+		lguy.x=8
+		lguy.life=300
+		lguy.dmg=40
+		lguy.y=104
+		lguy.sx=0.75
+		lguy.spr=16
+		lguy.msn='walk'
+		lguy.atkspd=29
+		add(units,lguy)
+end
+
+function move_units(lguy)
+			lguy.x+=lguy.sx
+		--if guy in front<8px stop
+		--if enm <8px in front stop
+		--msn atck
+		if lguy.x>136 then
+			del(units,lguy)
+		end
+end
+
+function units_logic()
+	if t%60==0 then
+		if #units<1 then
+			spawn_units()
+		end
+	end
+	for lguy in all(units) do
+		debug=lguy.msn
+		if lguy.msn=='walk' then
+			move_units(lguy)
+		end
+--popup damage
+--check if he's dead and 
+--then advance
+	end
+end
+
+
+
+function update_col()
+	for lguy in all(units) do
+		for enm in all(enms) do
+			if col(lguy,enm) then
+			--lguy
+				lguy.sx=0
+				lguy.msn='atk'
+			--enm
+				enm.sx=0
+				enm.msn='atk'
+				combat(lguy,enm)
+			end
+		end
+	end
+end
+
+function friend_col(arr)
+	for i=1,#arr do
+		for j=i+1,#arr do
+			local	obj1=arr[i]
+			local obj2=arr[j]
+			if col(obj1,obj2) then
+				obj1.sx=0
+				obj2.sx=0
+			end
+		end
+	end
+end
+
+
+
+		
+function combat(lguy,enm)
+--atk seq
+	if t%lguy.atkspd==0 then
+		enm.life-=lguy.dmg
+		popfloat(lguy.dmg,enm.x+5,enm.y-2,enm.y-8,7)
+		if enm.life<=0 then
+			lguy.msn='walk'
+			lguy.sx=0.75
+			del(enms,enm)
+		end
+	end
+	
+		if t%enm.atkspd==0 then
+		lguy.life-=enm.dmg
+		popfloat(enm.dmg,lguy.x+3,lguy.y-2,lguy.y-8,12)
+		if lguy.life<=0 then
+			enm.msn='walk'
+			enm.sx=-0.75
+			del(units,lguy)
+		end
+	end
+end

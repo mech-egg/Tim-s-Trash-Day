@@ -1,0 +1,41 @@
+--enms
+
+function draw_enms()
+	for enm in all(enms) do
+		drawspr(enm)
+	end
+end
+
+function spawn_enms()
+	 local enm=makespr()
+		enm.x=120
+		enm.y=104
+		enm.sx=-0.75
+		enm.spr=19
+		enm.msn='walk'
+		enm.life=300
+		enm.dmg=30
+		enm.atkspd=47
+		add(enms,enm)
+end
+
+function move_enms(enm)
+		enm.x+=enm.sx
+		
+		if enm.x>136 then
+			del(enms,enm)
+		end
+end
+
+function enms_logic()
+	if t%60==0 then
+		if#enms<1 then
+			spawn_enms()
+		end
+	end
+	for enm in all(enms) do
+		if enm.msn=='walk' then
+			move_enms(enm)
+		end
+	end
+end
