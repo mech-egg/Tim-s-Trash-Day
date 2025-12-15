@@ -2,10 +2,15 @@
 
 --can do
 --crits
+--power bar
+--item counts with spr
+--pu obj system with 
+--pu rnd logic + mods
 
 function _init()
 	state='start'
 	t=0
+	wt=0
 	debug=0
 end
 

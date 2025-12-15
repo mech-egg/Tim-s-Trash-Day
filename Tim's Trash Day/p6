@@ -1,0 +1,20 @@
+--garbabe
+
+--generate garbage
+function spawn_gpile()
+	gpile=makespr()
+		gpile.x=116
+		gpile.y=104
+		gpile.spr=11
+		gpile.life=40
+		add(garbage,gpile)
+end
+
+function draw_garbage()
+	for gpile in all(garbage) do
+		drawspr(gpile)
+	end
+end
+--remove garbage
+
+--move garbage around

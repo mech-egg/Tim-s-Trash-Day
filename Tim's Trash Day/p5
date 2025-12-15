@@ -1,41 +1,115 @@
---enms
+--player functions
 
-function draw_enms()
-	for enm in all(enms) do
-		drawspr(enm)
+function create_plr()
+	plr=makespr()
+		plr.x=8
+		plr.y=104
+		plr.spr=16
+		plr.sx=2
+		plr.mxinv=10
+		plr.inv={}
+		plr.flip=false
+		plr.msn='walk'
+		plr.mspd=12
+end
+
+function move_plr()
+ if btn(⬅️) then
+ 	plr.msn='walk'
+ 	plr.x-=plr.sx
+ 	plr.flip=true
+ elseif btn(➡️) then
+ 	plr.x+=plr.sx
+ 	plr.flip=false
+ end
+ plr_contain()
+end
+
+function plr_contain()
+	if plr.x>127 then
+ 	plr.x=0
+ end
+ if plr.x<0 then
+ 	plr.x=128
+ end
+end
+
+function draw_plr()
+	drawspr(plr)
+end
+
+function plr_logic()
+	debug=plr.msn
+	local mblock=mget((plr.x/8)+1,plr.y/8)
+	if mblock==11 and plr.msn!='return' then
+ 	plr.msn='mine'
+ elseif mget((plr.x/8)+1,plr.y/8)==2 and plr.msn!='walk' then 
+ 	plr.msn='empty'
+ end
+	
+	if plr.msn=='walk' then
+		if t>wt then
+			plr.sx=2
+			plr.flip=false
+			plr.x+=plr.sx
+		end
+	elseif plr.msn=='return'then
+		if t>wt then
+			plr.flip=true
+			plr.sx=2
+			plr.x-=plr.sx
+		end
+	elseif plr.msn=='empty' then
+		plr.sx=0
+		if #plr.inv>0 then
+			if t>wt then
+				for pu in all(plr.inv) do
+					if pu==32 then
+						pufloat(32,plr.x-2,plr.y-2,plr.y-10)
+						scrapcount+=1
+						del(plr.inv,pu)
+						wt=t+30
+						return
+					elseif pu==36 then
+						pufloat(36,plr.x,plr.y-2,plr.y-10)
+						batcount+=1
+						del(plr.inv,pu)
+						wt=t+30
+						return
+					end
+				end
+			end
+			else
+				plr.msn='walk'
+		end
+	elseif plr.msn=='mine' and plr.flip!=true then
+		plr.sx=0
+		rndn=rnd({1,1,1,1,1,1,1,1,1,1,1,1,2,3})
+		if wt<t then
+			--mining float pops
+			--random drop logic
+			if rndn==1 then
+				popfloat('-',plr.x+5,plr.y-2,plr.y-8,7)
+				wt=t+plr.mspd
+			elseif rndn==2 then
+				pufloat(32,plr.x+2,plr.y-2,plr.y-10)
+				wt=t+plr.mspd
+				add(plr.inv,32)
+			else
+				pufloat(36,plr.x,plr.y-2,plr.y-10)	
+				wt=t+plr.mspd
+				add(plr.inv,36)
+			end
+				chk_inv()
+				--sounds
+				--square blinks
+		end
 	end
 end
 
-function spawn_enms()
-	 local enm=makespr()
-		enm.x=120
-		enm.y=104
-		enm.sx=-0.75
-		enm.spr=19
-		enm.msn='walk'
-		enm.life=300
-		enm.dmg=30
-		enm.atkspd=47
-		add(enms,enm)
-end
 
-function move_enms(enm)
-		enm.x+=enm.sx
-		
-		if enm.x>136 then
-			del(enms,enm)
-		end
-end
-
-function enms_logic()
-	if t%60==0 then
-		if#enms<1 then
-			spawn_enms()
-		end
-	end
-	for enm in all(enms) do
-		if enm.msn=='walk' then
-			move_enms(enm)
-		end
+function chk_inv()
+	if #plr.inv>=plr.mxinv and plr.msn!='return' then
+		plr.msn='return'
 	end
 end

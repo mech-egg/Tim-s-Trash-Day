@@ -20,8 +20,13 @@ end
 function draw_game()
 	map()
 	draw_units()
-	draw_enms()
+	draw_plr()
 	draw_floats()
+	draw_pu()
+	draw_garbage()
+	print(scrapcount,20,5,7)
+	print(batcount,40,5,7)
+	print(t)
 end
 
 function draw_over()
@@ -48,6 +53,17 @@ function draw_floats()
 		myfl.age+=1
 		if myfl.age>=30 then
 			del(flts,myfl)	
+		end
+	end
+end
+
+function draw_pu()
+	for pu in all(pickups) do
+		drawspr(pu)
+		pu.y+=(pu.posy-pu.y)/7
+		pu.age+=1
+		if pu.age>=30 then
+			del(pickups,pu)	
 		end
 	end
 end

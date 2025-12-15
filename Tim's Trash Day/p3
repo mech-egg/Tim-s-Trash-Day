@@ -1,7 +1,7 @@
 --helper functions
 
 function drawspr(obj)
-	spr(obj.spr,obj.x,obj.y,obj.sprw,obj.sprh)
+	spr(obj.spr,obj.x,obj.y,obj.sprw,obj.sprh,plr.flip)
 end
 
 function makespr()
@@ -62,4 +62,14 @@ function popfloat(fltxt,flx,fly,flposy)
 	
 	
 	add(flts,fl)
+end
+
+function pufloat(puspr,pux,puy,puposy)
+	local pu=makespr()
+	pu.x=pux
+	pu.y=puy
+	pu.posy=puposy
+	pu.spr=puspr
+	pu.age=0
+	add(pickups,pu)
 end

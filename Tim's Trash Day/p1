@@ -13,16 +13,17 @@ function gamestart()
 	units={}
 	enms={}
 	flts={}
-	enmfreq=120
+	pickups={}
+	garbage={}
+	scrapcount=0
+	batcount=0
+	create_plr()
+	--spawn_gpile()
 end
 
 function update_game()
-	units_logic()
-	enms_logic()
-	update_col()
-	friend_col(units)
-	friend_col(enms)
-
+	move_plr()
+	plr_logic()
 	if btnp(🅾️) then
 		state='over'
 	end
@@ -33,3 +34,4 @@ function update_over()
 		state='start'
 	end
 end
+

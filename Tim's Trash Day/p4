@@ -76,29 +76,3 @@ function friend_col(arr)
 		end
 	end
 end
-
-
-
-		
-function combat(lguy,enm)
---atk seq
-	if t%lguy.atkspd==0 then
-		enm.life-=lguy.dmg
-		popfloat(lguy.dmg,enm.x+5,enm.y-2,enm.y-8,7)
-		if enm.life<=0 then
-			lguy.msn='walk'
-			lguy.sx=0.75
-			del(enms,enm)
-		end
-	end
-	
-		if t%enm.atkspd==0 then
-		lguy.life-=enm.dmg
-		popfloat(enm.dmg,lguy.x+3,lguy.y-2,lguy.y-8,12)
-		if lguy.life<=0 then
-			enm.msn='walk'
-			enm.sx=-0.75
-			del(units,lguy)
-		end
-	end
-end
