@@ -1,13 +1,43 @@
---garbabe
+--garbage
+
+--[[
+lguy comes from offscreen at set
+intervals and drops off gpile
+checks height and width
+drops new gpile on top
+when bottom gpiles rmvded
+whole system moves too
+lguy alternates gpiles based
+on current config
+]]--
 
 --generate garbage
-function spawn_gpile()
-	gpile=makespr()
-		gpile.x=116
-		gpile.y=104
-		gpile.spr=11
-		gpile.life=40
-		add(garbage,gpile)
+function spawn_gpile(tman)
+	if tman==nil then
+		gpile=makespr()
+			gpile.x=116
+			gpile.y=104
+			gpile.spr=11
+			gpile.life=40
+			gpile.sx=0
+			add(garbage,gpile)
+	elseif rnd()<.5 then
+			gpile=makespr()
+			gpile.x=tman.x+1
+			gpile.y=tman.y+8
+			gpile.spr=11
+			gpile.life=40
+			gpile.sx=tman.sx
+			add(garbage,gpile)
+	else
+			gpile=makespr()
+			gpile.x=tman.x+1
+			gpile.y=tman.y+8
+			gpile.spr=12
+			gpile.life=40
+			gpile.sx=tman.sx
+			add(garbage,gpile)
+	end
 end
 
 function draw_garbage()
@@ -18,3 +48,18 @@ end
 --remove garbage
 
 --move garbage around
+function update_gpile()
+	for gpile in all(garbage) do
+		gpile.x+=gpile.sx
+		gpile.y+=gpile.sy
+		if gpile.x>=120 then
+			gpile.sx=0
+			gpile.sy=1
+		end
+		if gpile.spr==12 and gpile.y>=96 then
+			del(garbage,gpile)
+		elseif gpile.y>=104	then
+			del(garbage,gpile)
+		end
+	end
+end

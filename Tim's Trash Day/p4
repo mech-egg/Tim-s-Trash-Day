@@ -1,48 +1,51 @@
---units
+--trash men
 
-function draw_units()
-	for lguy in all(units) do
-		drawspr(lguy)
+function draw_tmen()
+	for tman in all(units) do
+		drawspr(tman)
 	end
 end
 
-function spawn_units()
-	 local lguy=makespr()
-		lguy.x=8
-		lguy.life=300
-		lguy.dmg=40
-		lguy.y=104
-		lguy.sx=0.75
-		lguy.spr=16
-		lguy.msn='walk'
-		lguy.atkspd=29
-		add(units,lguy)
+function spawn_trashman()
+	 local tman=makespr()
+		tman.x=8
+		tman.life=300
+		tman.dmg=40
+		tman.y=56
+		tman.sx=0.75
+		tman.spr=48
+		tman.msn='deliver'
+		add(units,tman)
+		spawn_gpile(tman)
 end
 
-function move_units(lguy)
-			lguy.x+=lguy.sx
+function move_tman(tman)
+			tman.x+=tman.sx
 		--if guy in front<8px stop
 		--if enm <8px in front stop
 		--msn atck
-		if lguy.x>136 then
-			del(units,lguy)
+		if tman.x<-8 then
+			del(units,tman)
+		elseif tman.x>=120 then
+			tman.sx=-2
 		end
+		
 end
 
-function units_logic()
-	if t%60==0 then
+function tman_logic()
+	if t%enemyfreq==0 then
 		if #units<1 then
-			spawn_units()
+			spawn_trashman()
 		end
 	end
-	for lguy in all(units) do
-		debug=lguy.msn
-		if lguy.msn=='walk' then
-			move_units(lguy)
+	for tman in all(units) do
+		if tman.msn=='deliver' then
+			move_tman(tman)
 		end
---popup damage
---check if he's dead and 
---then advance
+	--check gpile locations
+	--drop gpile
+	--go get some more0.
+	
 	end
 end
 

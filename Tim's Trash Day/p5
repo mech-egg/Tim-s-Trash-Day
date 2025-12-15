@@ -5,6 +5,7 @@ function create_plr()
 		plr.x=8
 		plr.y=104
 		plr.spr=16
+		plr.spr=16
 		plr.sx=2
 		plr.mxinv=10
 		plr.inv={}

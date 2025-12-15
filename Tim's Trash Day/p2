@@ -19,7 +19,7 @@ end
 
 function draw_game()
 	map()
-	draw_units()
+	draw_tmen()
 	draw_plr()
 	draw_floats()
 	draw_pu()

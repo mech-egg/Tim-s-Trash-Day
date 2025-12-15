@@ -1,39 +1,40 @@
---framework
+--update
 
---can do
---crits
---power bar
---item counts with spr
---pu obj system with 
---pu rnd logic + mods
-
-function _init()
-	state='start'
-	t=0
-	wt=0
-	debug=0
-end
-
-function _update()
-	t+=1
-	
-	if state=='start' then
-		update_start()
-	elseif state=='game' then
-		update_game()
-	elseif state=='over' then
-		update_over()
+function update_start()
+	if btnp(🅾️) then
+		gamestart()
 	end
 end
 
-function _draw()
-	cls()
-	if state=='start' then
-		draw_start()
-	elseif state=='game' then
-		draw_game()
-	elseif state=='over' then
-		draw_over()
-	end
-	print(debug,6,120,7)
+function gamestart()
+	--music
+	--state
+	state='game'
+	units={}
+	enms={}
+	flts={}
+	pickups={}
+	garbage={}
+	enemyfreq=120
+	scrapcount=0
+	batcount=0
+	create_plr()
+	--spawn_gpile()
 end
+
+function update_game()
+	move_plr()
+	plr_logic()
+	tman_logic()
+	update_gpile()
+	if btnp(🅾️) then
+		state='over'
+	end
+end
+
+function update_over()
+	if btnp(🅾️) then 
+		state='start'
+	end
+end
+
