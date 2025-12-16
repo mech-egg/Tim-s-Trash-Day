@@ -8,7 +8,6 @@
 
 function draw_start()
 	cls(17)
-	print(t)
 	pal()
 	cprint('untitled game #1',64,40,6)
 	if t%30>10 then
@@ -19,19 +18,17 @@ end
 
 function draw_game()
 	map()
+	pal()
 	draw_tmen()
 	draw_plr()
 	draw_floats()
 	draw_pu()
 	draw_garbage()
-	print(scrapcount,20,5,7)
-	print(batcount,40,5,7)
-	print(t)
+	draw_plrui()
 end
 
 function draw_over()
 	cls(17)
-	print(t)
 	pal()
 	cprint('your power source',64,40,8)
 	cprint('has been extinguished',64,50,8)
@@ -66,4 +63,36 @@ function draw_pu()
 			del(pickups,pu)	
 		end
 	end
+end
+
+
+function draw_plrui()
+
+	print(scrapcount,6,2,7)
+
+	print(batcount,6,10,7)
+	--outline
+	rect(69,5,127,34,5)
+	rect(70,6,126,33,7)
+	rect(71,7,125,32,1)
+	line(96,7,96,32,6)
+	line(95,7,95,31,1)
+	line(97,7,97,31,1)
+	print('walkspd',98,8,7)
+	print('mspd',98,16,7)
+	print('inv ',98,24,7)
+	
+	--charge bar
+	print('charge: ',69,0,7)
+	rect(96,0,127,4,6)
+	if plr.eng>0 then
+		rectfill(97,1,97+plr.eng,3,10)
+	end
+	
+	
+--mining bot ino on right
+--mining speed/eqt/upgrades
+--movt speed
+--power bar --rect
+
 end

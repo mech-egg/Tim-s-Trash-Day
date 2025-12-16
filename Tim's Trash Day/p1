@@ -15,15 +15,17 @@ function gamestart()
 	flts={}
 	pickups={}
 	garbage={}
-	scrapcount=0
-	batcount=0
+	enemyfreq=120
+	scrapcount=10
+	batcount=10
 	create_plr()
 	--spawn_gpile()
 end
 
 function update_game()
-	move_plr()
 	plr_logic()
+	tman_logic()
+	update_gpile()
 	if btnp(🅾️) then
 		state='over'
 	end
