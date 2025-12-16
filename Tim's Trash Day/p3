@@ -1,7 +1,14 @@
 --helper functions
 
 function drawspr(obj)
-	spr(obj.spr,obj.x,obj.y,obj.sprw,obj.sprh,plr.flip)
+	spr(
+	obj.spr,
+	obj.x,
+	obj.y,
+	obj.sprw,
+	obj.sprh,
+	obj.flip
+	)
 end
 
 function makespr()
@@ -71,5 +78,12 @@ function pufloat(puspr,pux,puy,puposy)
 	pu.posy=puposy
 	pu.spr=puspr
 	pu.age=0
+	if puspr==32 then
+		pu.type=1
+	else
+		pu.type=2
+	end
+	
 	add(pickups,pu)
+	return pu
 end

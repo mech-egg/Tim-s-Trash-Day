@@ -6,8 +6,8 @@ function create_plr()
 		plr.y=104
 		plr.spr=16
 		plr.spr=16
-		plr.sx=2
-		plr.mxinv=2
+		plr.sx=1
+		plr.mxinv=5
 		plr.inv={}
 		plr.flip=false
 		plr.msn='walk'
@@ -17,6 +17,7 @@ function create_plr()
 		--carry
 		plr.cspd=plr.sx/2
 		--energy
+		--max 29
 		plr.eng=29
 		--
 end
@@ -29,6 +30,7 @@ end
 function plr_logic()
 	debug=plr.msn
 	local mblock=mget((plr.x/8)+1,plr.y/8)
+	
 	if mblock==11 and plr.msn!='return' then
  	plr.msn='mine'
  elseif mget((plr.x/8)+1,plr.y/8)==2 and plr.msn!='walk' then 
@@ -39,26 +41,34 @@ function plr_logic()
 		if t>wt then
 			plr.sx=2
 			plr.flip=false
-			plr.x+=plr.sx
+			if plr.eng>0 then
+				plr.x+=plr.sx
+			else
+				plr.x+=plr.cspd
+			end
 		end
 	elseif plr.msn=='return'then
 		if t>wt then
 			plr.flip=true
 			plr.sx=2
-			plr.x-=plr.sx
-		end
+				if plr.eng>0 then
+					plr.x-=plr.sx
+				else
+					plr.x-=plr.cspd
+				end
+			end
 	elseif plr.msn=='empty' then
 		plr.sx=0
 		if #plr.inv>0 then
 			if t>wt then
 				for pu in all(plr.inv) do
-					if pu==32 then
-						pufloat(32,plr.x-2,plr.y-2,plr.y-10)
+					if pu.type==1 then
+						pufloat(32,plr.x+1,plr.y-2,plr.y-10)
 						scrapcount+=1
 						del(plr.inv,pu)
 						wt=t+30
 						return
-					elseif pu==36 then
+					elseif pu.type==2 then
 						pufloat(36,plr.x,plr.y-2,plr.y-10)
 						batcount+=1
 						del(plr.inv,pu)
@@ -72,7 +82,10 @@ function plr_logic()
 		end
 	elseif plr.msn=='mine' and plr.flip!=true then
 		plr.sx=0
-		rndn=rnd({1,1,1,1,1,1,1,1,1,1,1,1,2,3})
+		rndn=rnd({1,1,1,2,3})
+		if plr.eng<=0 then
+			plr.mspd
+		end
 		if wt<t then
 			--mining float pops
 			--random drop logic
@@ -80,13 +93,15 @@ function plr_logic()
 				popfloat('-',plr.x+5,plr.y-2,plr.y-8,7)
 				wt=t+plr.mspd
 			elseif rndn==2 then
+				local pu=pufloat(32,plr.x+2,plr.y-2,plr.y-10)
 				pufloat(32,plr.x+2,plr.y-2,plr.y-10)
 				wt=t+plr.mspd
-				add(plr.inv,32)
+				add(plr.inv,pu)
 			else
+				local pu=pufloat(36,plr.x,plr.y-2,plr.y-10)
 				pufloat(36,plr.x,plr.y-2,plr.y-10)	
 				wt=t+plr.mspd
-				add(plr.inv,36)
+				add(plr.inv,pu)
 			end
 			plr.eng-=1
 			if plr.eng<=0 then
