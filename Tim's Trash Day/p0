@@ -3,13 +3,13 @@
 
 --can do
 --crits
---power bar
---player info card on right
---upgrade options on left
 --power logic for plr
 --shutdown and player actions
 --pu obj system with 
 --pu rnd logic + mods
+--max inv shutoff
+--progression
+--gpile objs +placement
 
 function _init()
 	state='start'

@@ -33,11 +33,19 @@ function makespr()
 end
 
 function col(a,b)
+	local spclay=a.y
+	local spclax=a.x
+	if a.type=='selector' or b.type=='selector' then
+		--make selector col detect
+		--smaller
+		spclay=spclay+4
+		spclax=spclax+4
+	end
 	--a box
-	local a_top=a.y
-	local a_btm=a.y+a.colh-1
-	local a_rgt=a.x+a.colw-1
-	local a_lft=a.x
+	local a_top=spclay
+	local a_btm=spclay+a.colh-1
+	local a_rgt=spclax+a.colw-1
+	local a_lft=spclax
 	--b box
 	local b_top=b.y
 	local b_btm=b.y+b.colh-1

@@ -21,6 +21,45 @@ function updateui()
 	if btnp(⬇️) then
 		selector.y+=8
 	end
+	if btnp(🅾️) then
+		if plr.eng<=0 then
+			batcount-=1
+			pufloat(36,plr.x,plr.y-2,plr.y-10)
+			plr.eng=plr.maxeng
+		end
+	end
+	for up in all(upgrades) do
+		if col(selector,up) then
+			if btnp(❎) then
+				if plr.lvl+up.bcost<=batcount and
+				plr.lvl+up.scost<=scrapcount then
+					batcount-=plr.lvl+up.scost
+					scrapcount-=plr.lvl+up.bcost
+					if up.type==1 then
+						plr.usx+=.1
+						up.bcost+=1
+						up.scost+=3
+					elseif up.type==2 then
+						plr.umspd+=5
+						up.bcost+=1
+						up.scost+=3
+					elseif up.type==3 then
+						plr.umeng+=0.5
+						up.bcost+=1
+						up.scost+=3
+					elseif up.type==4 then
+						plr.umdmg+=5
+						up.bcost+=1
+						up.scost+=3
+					end
+				else
+					sfx(0)
+					return
+				end
+				
+			end
+		end
+	end
 	selector_contain()
 end
 
@@ -29,10 +68,17 @@ function make_selector()
 		selector.x=0
 		selector.y=16
 		selector.spr=54
+		selector.type='selector'
+		selector.colw=4
+		selector.colh=4
 end
 
 function draw_selector()
+	if t%30>25 then
+			pal(6,7)
+	end 
 	drawspr(selector)
+	pal()
 end
 
 function selector_contain()
@@ -53,7 +99,7 @@ end
 function left_ui()
 	local expamt=plr.exp/plr.maxexp
 		--top left
-		debug=
+
 	print(scrapcount,6,2,7)
 	print(batcount,6,10,7)
 	print('level: '..plr.lvl,16,2,7)
@@ -61,20 +107,18 @@ function left_ui()
 	if plr.exp>0 then
 		rectfill(17,9,17+flr((expamt*42)),13,10)
 	end
+	
+
 	--move speed
-	--icon
-	--dynamic cost
 	
-	--mining speed
-	--icon
-	--dynamic cost
-	
-	--mining eng
-	--icon
-	--dynamic cost
-	
-	--mining dmg
-	--icon
+	for up in all(upgrades) do
+		drawspr(up)
+		print('cost',10,up.y,7)
+		spr(50,26,up.y-2)
+		print(plr.lvl+up.scost,32,up.y,9)
+		spr(49,44,up.y-2)
+		print(plr.lvl+up.bcost,50,up.y,9)
+	end
 	
 	--dynamic cost
 	--buildings??
@@ -112,21 +156,22 @@ function right_ui()
 	--inv
 		local xf=0
 		for pu in all(plr.inv) do
-		pu.x=98+xf
-		pu.y=24
-		if pu.type==2 then
-			pu.spr=49
-		elseif pu.type==1 then
-			pu.spr=50
-		end
-			drawspr(pu)
-			xf+=5
+			pu.x=98+xf
+			pu.y=24
+			if pu.type==2 then
+				pu.spr=49
+			elseif pu.type==1 then
+				pu.spr=50
+			end
+				drawspr(pu)
+				xf+=5
 		end
 	
 	--charge bar
+	engamt=plr.eng/plr.maxeng
 	print('charge: ',69,0,7)
 	rect(96,0,127,4,6)
 	if plr.eng>0 then
-		rectfill(97,1,97+plr.eng,3,10)
+		rectfill(97,1,97+flr((engamt*29)),3,10)
 	end
 end

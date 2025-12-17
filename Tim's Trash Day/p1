@@ -15,6 +15,44 @@ function gamestart()
 	flts={}
 	pickups={}
 	garbage={}
+	upgrades={}
+	
+	local mup=makespr()
+	mup.spr=42
+	mup.x=2
+	mup.y=18
+	mup.scost=0
+	mup.bcost=0
+	mup.type=1
+	add(upgrades,mup)
+	
+	local mspdup=makespr()
+	mspdup.spr=43
+	mspdup.x=2
+	mspdup.y=26
+	mspdup.scost=0
+	mspdup.bcost=0
+	mspdup.type=2
+	add(upgrades,mspdup)
+	
+	local mengup=makespr()
+	mengup.spr=44
+	mengup.x=1
+	mengup.y=34
+	mengup.scost=0
+	mengup.bcost=0
+	mengup.type=3
+	add(upgrades,mengup)
+	
+	local mdmgup=makespr()
+	mdmgup.spr=45
+	mdmgup.x=2
+	mdmgup.y=41
+	mdmgup.scost=0
+	mdmgup.bcost=0
+	mdmgup.type=4
+	add(upgrades,mdmgup)
+	
 	enemyfreq=120
 	scrapcount=10
 	batcount=10
@@ -28,9 +66,6 @@ function update_game()
 	tman_logic()
 	update_gpile()
 	updateui()
-	if btnp(🅾️) then
-		state='over'
-	end
 end
 
 function update_over()

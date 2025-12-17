@@ -6,7 +6,7 @@ function create_plr()
 		plr.y=104
 		plr.spr=16
 		plr.sx=1
-		plr.mxinv=5
+		plr.mxinv=1
 		plr.inv={}
 		plr.flip=false
 		plr.msn='walk'
@@ -15,8 +15,9 @@ function create_plr()
 		plr.exp=0
 		plr.maxexp=100
 		--mine
-		plr.mspd=20
-		plr.meng=2
+		plr.mspd=60
+		plr.meng=5
+		plr.mdmg=10
 		--carry
 		plr.cspd=plr.sx/2
 		
@@ -26,7 +27,8 @@ function create_plr()
 		plr.eng=29
 		
 		--upgrades
-		plr.usx=1
+		plr.usx=0
+		plr.umdmg=0
 		--negatives
 		plr.umspd=0
 		plr.umeng=0
@@ -38,7 +40,7 @@ function draw_plr()
 end
 
 function plr_logic()
-	debug=plr.msn
+	debug=plr.maxexp
 	local mblock=mget((plr.x/8)+1,plr.y/8)
 	
 	if mblock==11 and plr.msn!='return' then
@@ -99,19 +101,22 @@ function plr_logic()
 			if rndn==1 then
 				popfloat('-',plr.x+5,plr.y-2,plr.y-8,7)
 				wt=t+plr.mspd
+				plr.exp+=2
 			elseif rndn==2 then
 				local pu=pufloat(32,plr.x+2,plr.y-2,plr.y-10)
 				pufloat(32,plr.x+2,plr.y-2,plr.y-10)
-				wt=t+plr.mspd
+				wt=t+plr.mspd-plr.umspd
 				add(plr.inv,pu)
+				plr.exp+=4
 			else
 				local pu=pufloat(36,plr.x,plr.y-2,plr.y-10)
 				pufloat(36,plr.x,plr.y-2,plr.y-10)	
-				wt=t+plr.mspd
+				wt=t+plr.mspd-plr.umspd
 				add(plr.inv,pu)
+				plr.exp+=4
 			end
-			plr.exp+=5
-			plr.eng-=plr.meng
+			
+			plr.eng-=(plr.meng-plr.umeng)
 			if plr.eng<=0 then
 				plr.eng=0
 			end
@@ -132,7 +137,17 @@ end
 
 function chk_exp()
 	if plr.exp>=plr.maxexp then
-		plr.lvl+=1
+		level_plr()
 		plr.exp=0
+		plr.maxexp=flr(plr.maxexp*1.1)
 	end
+end
+
+function level_plr()
+	plr.lvl+=1
+	plr.usx+=.1
+	plr.umdmg+=5
+		--negatives
+	plr.umspd+=5
+	plr.umeng+=0.5
 end

@@ -21,7 +21,6 @@ function spawn_trashman()
 end
 
 function move_tman(tman)
-	debug=tman.turn
 			tman.x+=tman.sx
 		--if guy in front<8px stop
 		--if enm <8px in front stop
