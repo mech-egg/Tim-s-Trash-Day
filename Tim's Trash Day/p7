@@ -26,40 +26,11 @@ function updateui()
 			batcount-=1
 			pufloat(36,plr.x,plr.y-2,plr.y-10)
 			plr.eng=plr.maxeng
+		else
+			sfx(0)
 		end
 	end
-	for up in all(upgrades) do
-		if col(selector,up) then
-			if btnp(❎) then
-				if plr.lvl+up.bcost<=batcount and
-				plr.lvl+up.scost<=scrapcount then
-					batcount-=plr.lvl+up.scost
-					scrapcount-=plr.lvl+up.bcost
-					if up.type==1 then
-						plr.usx+=.1
-						up.bcost+=1
-						up.scost+=3
-					elseif up.type==2 then
-						plr.umspd+=5
-						up.bcost+=1
-						up.scost+=3
-					elseif up.type==3 then
-						plr.umeng+=0.5
-						up.bcost+=1
-						up.scost+=3
-					elseif up.type==4 then
-						plr.umdmg+=5
-						up.bcost+=1
-						up.scost+=3
-					end
-				else
-					sfx(0)
-					return
-				end
-				
-			end
-		end
-	end
+	upgrade_system()
 	selector_contain()
 end
 
@@ -99,13 +70,12 @@ end
 function left_ui()
 	local expamt=plr.exp/plr.maxexp
 		--top left
-
 	print(scrapcount,6,2,7)
 	print(batcount,6,10,7)
 	print('level: '..plr.lvl,16,2,7)
 	rect(16,8,60,14,6)
 	if plr.exp>0 then
-		rectfill(17,9,17+flr((expamt*42)),13,10)
+		rectfill(17,9,17+flr((expamt*42)),13,11)
 	end
 	
 
@@ -173,5 +143,42 @@ function right_ui()
 	rect(96,0,127,4,6)
 	if plr.eng>0 then
 		rectfill(97,1,97+flr((engamt*29)),3,10)
+	else
+		print('press z to charge battery',2,122,7)
+	end
+end
+
+function upgrade_system()
+debug=plr.usx
+for up in all(upgrades) do
+		if col(selector,up) then
+			if btnp(❎) then
+				if plr.lvl+up.bcost<=batcount and
+				plr.lvl+up.scost<=scrapcount then
+					batcount-=plr.lvl+up.bcost
+					scrapcount-=plr.lvl+up.scost
+					if up.type==1 then
+						plr.usx+=.1
+						up.bcost+=1
+						up.scost+=3
+					elseif up.type==2 then
+						plr.umspd+=5
+						up.bcost+=1
+						up.scost+=3
+					elseif up.type==3 then
+						plr.umeng+=0.5
+						up.bcost+=1
+						up.scost+=3
+					elseif up.type==4 then
+						plr.umdmg+=5
+						up.bcost+=1
+						up.scost+=3
+					end
+				else
+					sfx(0)
+					return
+				end
+			end
+		end
 	end
 end

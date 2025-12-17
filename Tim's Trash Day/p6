@@ -64,5 +64,9 @@ function update_gpile()
 		elseif gpile.y>=104	then
 			del(garbage,gpile)
 		end
+		
+		--check below
+		--move down when needed
+		--build up in pile order
 	end
 end

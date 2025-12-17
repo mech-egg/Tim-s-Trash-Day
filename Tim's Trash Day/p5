@@ -101,19 +101,19 @@ function plr_logic()
 			if rndn==1 then
 				popfloat('-',plr.x+5,plr.y-2,plr.y-8,7)
 				wt=t+plr.mspd
-				plr.exp+=2
+				plr.exp+=3
 			elseif rndn==2 then
 				local pu=pufloat(32,plr.x+2,plr.y-2,plr.y-10)
 				pufloat(32,plr.x+2,plr.y-2,plr.y-10)
 				wt=t+plr.mspd-plr.umspd
 				add(plr.inv,pu)
-				plr.exp+=4
+				plr.exp+=5
 			else
 				local pu=pufloat(36,plr.x,plr.y-2,plr.y-10)
 				pufloat(36,plr.x,plr.y-2,plr.y-10)	
 				wt=t+plr.mspd-plr.umspd
 				add(plr.inv,pu)
-				plr.exp+=4
+				plr.exp+=5
 			end
 			
 			plr.eng-=(plr.meng-plr.umeng)
@@ -138,16 +138,27 @@ end
 function chk_exp()
 	if plr.exp>=plr.maxexp then
 		level_plr()
-		plr.exp=0
-		plr.maxexp=flr(plr.maxexp*1.1)
 	end
 end
 
 function level_plr()
+	if plr.lvl==2 then
+		plr.mxinv=2
+	elseif plr.lvl==4 then
+		plr.mxinv=3
+	elseif plr.lvl==6 then
+		plr.mxinv=4
+	elseif plr.lvl==8 then
+		plr.mxinv=5
+	end
 	plr.lvl+=1
+	plr.maxeng+=1
 	plr.usx+=.1
 	plr.umdmg+=5
 		--negatives
 	plr.umspd+=5
 	plr.umeng+=0.5
+	plr.exp=0
+	plr.maxexp=flr(plr.maxexp*1.1)
+	--for loop level up function?
 end

@@ -3,13 +3,10 @@
 
 --can do
 --crits
---power logic for plr
 --shutdown and player actions
---pu obj system with 
---pu rnd logic + mods
---max inv shutoff
 --progression
 --gpile objs +placement
+--for loop lvl up function
 
 function _init()
 	state='start'
@@ -39,5 +36,5 @@ function _draw()
 	elseif state=='over' then
 		draw_over()
 	end
-	print(debug,6,120,7)
+	print(debug,120,120,7)
 end
