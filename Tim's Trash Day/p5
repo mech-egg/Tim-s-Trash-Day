@@ -6,7 +6,7 @@ function create_plr()
 		plr.y=104
 		plr.spr=16
 		plr.sx=1
-		plr.mxinv=1
+		plr.mxinv=5
 		plr.inv={}
 		plr.flip=false
 		plr.msn='walk'
@@ -40,12 +40,17 @@ function draw_plr()
 end
 
 function plr_logic()
-	debug=plr.maxexp
+	debug=tgpile.life
 	local mblock=mget((plr.x/8)+1,plr.y/8)
 	
-	if mblock==11 and plr.msn!='return' then
- 	plr.msn='mine'
- elseif mget((plr.x/8)+1,plr.y/8)==2 and plr.msn!='walk' then 
+	for gpile in all(garbage) do
+		if col(gpile,plr) and plr.msn!='return' then
+ 		plr.msn='mine'
+ 		tgpile=gpile
+ 	end
+	end
+
+ if mget((plr.x/8)+1,plr.y/8)==2 and plr.msn!='walk' then 
  	plr.msn='empty'
  end
 	
@@ -57,6 +62,9 @@ function plr_logic()
 				plr.x+=plr.sx
 			else
 				plr.x+=plr.cspd
+			end
+			if plr.x>132 then
+				state='win'
 			end
 		end
 	elseif plr.msn=='return'then
@@ -115,13 +123,14 @@ function plr_logic()
 				add(plr.inv,pu)
 				plr.exp+=5
 			end
-			
+			tgpile.life-=plr.mdmg
 			plr.eng-=(plr.meng-plr.umeng)
 			if plr.eng<=0 then
 				plr.eng=0
 			end
 				chk_inv()
 				chk_exp()
+				chk_gpile()
 				--sounds
 				--square blinks
 		end
@@ -138,6 +147,14 @@ end
 function chk_exp()
 	if plr.exp>=plr.maxexp then
 		level_plr()
+	end
+end
+
+function chk_gpile()
+	if tgpile.life<=0 then
+		wt=t
+		plr.msn='walk'
+		del(garbage,tgpile)
 	end
 end
 

@@ -17,6 +17,36 @@ function gamestart()
 	garbage={}
 	upgrades={}
 	
+	local gpile=makespr()
+	gpile.x=72
+	gpile.y=104
+	gpile.spr=11
+	gpile.life=40
+	gpile.drop=0
+	gpile.msn='sit'
+	gpile.id=#gpile+1
+	add(garbage,gpile)
+	
+	local gpile=makespr()
+	gpile.x=80
+	gpile.y=104
+	gpile.spr=11
+	gpile.life=40
+	gpile.drop=0
+	gpile.msn='sit'
+	gpile.id=#gpile+1
+	add(garbage,gpile)
+	
+	local gpile=makespr()
+	gpile.x=88
+	gpile.y=104
+	gpile.spr=12
+	gpile.life=40
+	gpile.drop=0
+	gpile.msn='sit'
+	gpile.id=#gpile+1
+	add(garbage,gpile)
+	
 	local mup=makespr()
 	mup.spr=42
 	mup.x=2
@@ -56,6 +86,7 @@ function gamestart()
 	enemyfreq=120
 	scrapcount=10
 	batcount=10
+	tgpile={}
 	create_plr()
 	make_selector()
 	--spawn_gpile()
@@ -66,6 +97,9 @@ function update_game()
 	tman_logic()
 	update_gpile()
 	updateui()
+		if #garbage >10 then
+			state='over'
+		end
 end
 
 function update_over()

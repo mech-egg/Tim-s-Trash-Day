@@ -149,7 +149,6 @@ function right_ui()
 end
 
 function upgrade_system()
-debug=plr.usx
 for up in all(upgrades) do
 		if col(selector,up) then
 			if btnp(❎) then

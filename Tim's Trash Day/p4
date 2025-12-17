@@ -51,32 +51,3 @@ function tman_logic()
 end
 
 
-
-function update_col()
-	for lguy in all(units) do
-		for enm in all(enms) do
-			if col(lguy,enm) then
-			--lguy
-				lguy.sx=0
-				lguy.msn='atk'
-			--enm
-				enm.sx=0
-				enm.msn='atk'
-				combat(lguy,enm)
-			end
-		end
-	end
-end
-
-function friend_col(arr)
-	for i=1,#arr do
-		for j=i+1,#arr do
-			local	obj1=arr[i]
-			local obj2=arr[j]
-			if col(obj1,obj2) then
-				obj1.sx=0
-				obj2.sx=0
-			end
-		end
-	end
-end

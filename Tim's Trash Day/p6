@@ -1,16 +1,5 @@
 --garbage
 
---[[
-lguy comes from offscreen at set
-intervals and drops off gpile
-checks height and width
-drops new gpile on top
-when bottom gpiles rmvded
-whole system moves too
-lguy alternates gpiles based
-on current config
-]]--
-
 --generate garbage
 function spawn_gpile(tman)
 	if tman==nil then
@@ -21,6 +10,7 @@ function spawn_gpile(tman)
 			gpile.spr=11
 			gpile.life=40
 			gpile.sx=tman.sx
+			gpile.id=#gpile+1
 			add(garbage,gpile)
 	elseif rnd()<.5 then
 			gpile=makespr()
@@ -30,6 +20,7 @@ function spawn_gpile(tman)
 			gpile.spr=11
 			gpile.life=40
 			gpile.sx=tman.sx
+			gpile.id=#gpile+1
 			add(garbage,gpile)
 	else
 			gpile=makespr()
@@ -39,6 +30,7 @@ function spawn_gpile(tman)
 			gpile.spr=12
 			gpile.life=40
 			gpile.sx=tman.sx
+			gpile.id=#gpile+1
 			add(garbage,gpile)
 	end
 end
@@ -55,18 +47,31 @@ function update_gpile()
 	for gpile in all(garbage) do
 		gpile.x+=gpile.sx
 		gpile.y+=gpile.sy
+		
+		
+		--mission drop
+		--check tman turn
 		if gpile.x<=gpile.drop then
-			gpile.sx=0
+			--drop block
 			gpile.sy=1
-		end
-		if gpile.spr==12 and gpile.y>=96 then
-			del(garbage,gpile)
-		elseif gpile.y>=104	then
-			del(garbage,gpile)
+			gpile.sx=0
+			--check col with block
+			--mget+fget+flag???
+			if gpile.y>=104 then
+				gpile.y=104
+				gpile.sy=0
+			end
 		end
 		
-		--check below
-		--move down when needed
-		--build up in pile order
+		--check col with
+		--blocks and ground
+		--change to sit on col
+	
+		--mission sit
+		--stop moving
+		--check col with blocks
+		--and ground
+		--change to drop if bottom
+		--block falls
 	end
 end

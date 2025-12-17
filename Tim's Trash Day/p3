@@ -61,6 +61,18 @@ function col(a,b)
 	return true
 end
 
+function friend_col(obj,arr)
+	for i=obj.id,#arr do
+		for j=i+1,#arr do
+			local	obj1=arr[i]
+			local obj2=arr[j]
+			if col(obj1,obj2) then
+				return true
+			end
+		end
+	end
+end
+
 function cprint(txt,x,y,c)
 	local ftxt=tostr(txt)
 	--move txt half length of txt
