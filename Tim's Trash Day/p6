@@ -14,15 +14,17 @@ on current config
 --generate garbage
 function spawn_gpile(tman)
 	if tman==nil then
-		gpile=makespr()
-			gpile.x=116
-			gpile.y=104
+			gpile=makespr()
+			gpile.drop=tman.turn
+			gpile.x=tman.x
+			gpile.y=tman.y+8
 			gpile.spr=11
 			gpile.life=40
-			gpile.sx=0
+			gpile.sx=tman.sx
 			add(garbage,gpile)
 	elseif rnd()<.5 then
 			gpile=makespr()
+			gpile.drop=tman.turn
 			gpile.x=tman.x+1
 			gpile.y=tman.y+8
 			gpile.spr=11
@@ -31,6 +33,7 @@ function spawn_gpile(tman)
 			add(garbage,gpile)
 	else
 			gpile=makespr()
+			gpile.drop=tman.turn
 			gpile.x=tman.x+1
 			gpile.y=tman.y+8
 			gpile.spr=12
@@ -52,7 +55,7 @@ function update_gpile()
 	for gpile in all(garbage) do
 		gpile.x+=gpile.sx
 		gpile.y+=gpile.sy
-		if gpile.x>=120 then
+		if gpile.x<=gpile.drop then
 			gpile.sx=0
 			gpile.sy=1
 		end

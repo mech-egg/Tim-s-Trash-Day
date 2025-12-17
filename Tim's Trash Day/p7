@@ -1,0 +1,132 @@
+--ui
+
+function draw_plrui()
+	pal()
+	left_ui()
+	right_ui()
+
+	
+end
+
+function updateui()
+	if btnp(⬅️) then
+		selector.x-=8
+	end
+	if btnp(➡️) then
+		selector.x+=8
+	end
+	if btnp(⬆️) then
+		selector.y-=8
+	end
+	if btnp(⬇️) then
+		selector.y+=8
+	end
+	selector_contain()
+end
+
+function make_selector()
+		selector=makespr()
+		selector.x=0
+		selector.y=16
+		selector.spr=54
+end
+
+function draw_selector()
+	drawspr(selector)
+end
+
+function selector_contain()
+	if selector.x<=0 then
+		selector.x=0
+	end
+	if selector.x>=56 then
+		selector.x=56
+	end
+	if selector.y<=16 then
+		selector.y=16
+	end
+	if selector.y>=40 then
+		selector.y=40
+	end
+end
+
+function left_ui()
+	local expamt=plr.exp/plr.maxexp
+		--top left
+		debug=
+	print(scrapcount,6,2,7)
+	print(batcount,6,10,7)
+	print('level: '..plr.lvl,16,2,7)
+	rect(16,8,60,14,6)
+	if plr.exp>0 then
+		rectfill(17,9,17+flr((expamt*42)),13,10)
+	end
+	--move speed
+	--icon
+	--dynamic cost
+	
+	--mining speed
+	--icon
+	--dynamic cost
+	
+	--mining eng
+	--icon
+	--dynamic cost
+	
+	--mining dmg
+	--icon
+	
+	--dynamic cost
+	--buildings??
+	--scrap melter
+		--production speed
+	--battery charger
+	--trash compactor
+	
+end
+	
+function right_ui()
+		--routline
+	rect(69,5,127,34,5)
+	rect(70,6,126,33,7)
+	rect(71,7,125,32,1)
+	line(96,7,96,32,6)
+	line(95,7,95,31,1)
+	line(97,7,97,31,1)
+	
+	--plr info
+	if plr.eng>0 then
+		if t%30>25 then
+			pal(11,10)
+		end 
+		print('fast',98,8,11)
+		print('strong',98,16,11)
+	else
+		if t%30>10 then
+			pal(9,8)
+		end 
+		print('slow',98,8,9)
+		print('poor',98,16,9)
+	end
+	
+	--inv
+		local xf=0
+		for pu in all(plr.inv) do
+		pu.x=98+xf
+		pu.y=24
+		if pu.type==2 then
+			pu.spr=49
+		elseif pu.type==1 then
+			pu.spr=50
+		end
+			drawspr(pu)
+			xf+=5
+		end
+	
+	--charge bar
+	print('charge: ',69,0,7)
+	rect(96,0,127,4,6)
+	if plr.eng>0 then
+		rectfill(97,1,97+plr.eng,3,10)
+	end
+end

@@ -19,6 +19,7 @@ function gamestart()
 	scrapcount=10
 	batcount=10
 	create_plr()
+	make_selector()
 	--spawn_gpile()
 end
 
@@ -26,6 +27,7 @@ function update_game()
 	plr_logic()
 	tman_logic()
 	update_gpile()
+	updateui()
 	if btnp(🅾️) then
 		state='over'
 	end

@@ -8,26 +8,28 @@ end
 
 function spawn_trashman()
 	 local tman=makespr()
-		tman.x=8
+		tman.x=136
 		tman.life=300
 		tman.dmg=40
-		tman.y=56
-		tman.sx=0.75
+		tman.y=36
+		tman.sx=-0.75
 		tman.spr=48
 		tman.msn='deliver'
+		tman.turn=55+flr(rnd(61))
 		add(units,tman)
 		spawn_gpile(tman)
 end
 
 function move_tman(tman)
+	debug=tman.turn
 			tman.x+=tman.sx
 		--if guy in front<8px stop
 		--if enm <8px in front stop
 		--msn atck
-		if tman.x<-8 then
+		if tman.x>140 then
 			del(units,tman)
-		elseif tman.x>=120 then
-			tman.sx=-2
+		elseif tman.x<=tman.turn then
+			tman.sx=2
 		end
 		
 end

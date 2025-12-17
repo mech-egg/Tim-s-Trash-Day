@@ -5,21 +5,31 @@ function create_plr()
 		plr.x=8
 		plr.y=104
 		plr.spr=16
-		plr.spr=16
 		plr.sx=1
 		plr.mxinv=5
 		plr.inv={}
 		plr.flip=false
 		plr.msn='walk'
+		--leveling
+		plr.lvl=1
+		plr.exp=0
+		plr.maxexp=100
 		--mine
-		plr.mspd=12
+		plr.mspd=20
 		plr.meng=2
 		--carry
 		plr.cspd=plr.sx/2
+		
 		--energy
 		--max 29
+		plr.maxeng=29
 		plr.eng=29
-		--
+		
+		--upgrades
+		plr.usx=1
+		--negatives
+		plr.umspd=0
+		plr.umeng=0
 end
 
 
@@ -39,7 +49,7 @@ function plr_logic()
 	
 	if plr.msn=='walk' then
 		if t>wt then
-			plr.sx=2
+			plr.sx=1+plr.usx
 			plr.flip=false
 			if plr.eng>0 then
 				plr.x+=plr.sx
@@ -50,7 +60,7 @@ function plr_logic()
 	elseif plr.msn=='return'then
 		if t>wt then
 			plr.flip=true
-			plr.sx=2
+			plr.sx=1+plr.usx
 				if plr.eng>0 then
 					plr.x-=plr.sx
 				else
@@ -83,9 +93,6 @@ function plr_logic()
 	elseif plr.msn=='mine' and plr.flip!=true then
 		plr.sx=0
 		rndn=rnd({1,1,1,2,3})
-		if plr.eng<=0 then
-			plr.mspd
-		end
 		if wt<t then
 			--mining float pops
 			--random drop logic
@@ -103,11 +110,13 @@ function plr_logic()
 				wt=t+plr.mspd
 				add(plr.inv,pu)
 			end
-			plr.eng-=1
+			plr.exp+=5
+			plr.eng-=plr.meng
 			if plr.eng<=0 then
 				plr.eng=0
 			end
 				chk_inv()
+				chk_exp()
 				--sounds
 				--square blinks
 		end
@@ -118,5 +127,12 @@ end
 function chk_inv()
 	if #plr.inv>=plr.mxinv and plr.msn!='return' then
 		plr.msn='return'
+	end
+end
+
+function chk_exp()
+	if plr.exp>=plr.maxexp then
+		plr.lvl+=1
+		plr.exp=0
 	end
 end
