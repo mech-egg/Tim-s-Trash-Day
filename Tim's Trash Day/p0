@@ -12,7 +12,7 @@ function _init()
 	state='start'
 	t=0
 	wt=0
-	debug=0
+	debug=''
 end
 
 function _update()

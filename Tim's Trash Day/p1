@@ -24,7 +24,8 @@ function gamestart()
 	gpile.life=40
 	gpile.drop=0
 	gpile.msn='sit'
-	gpile.id=#gpile+1
+	gpile.id=flr(rnd(1000))+#garbage
+	gpile.msn='drop'
 	add(garbage,gpile)
 	
 	local gpile=makespr()
@@ -34,7 +35,8 @@ function gamestart()
 	gpile.life=40
 	gpile.drop=0
 	gpile.msn='sit'
-	gpile.id=#gpile+1
+	gpile.id=flr(rnd(1000))+#garbage
+	gpile.msn='drop'
 	add(garbage,gpile)
 	
 	local gpile=makespr()
@@ -44,7 +46,8 @@ function gamestart()
 	gpile.life=40
 	gpile.drop=0
 	gpile.msn='sit'
-	gpile.id=#gpile+1
+	gpile.id=flr(rnd(1000))+#garbage
+	gpile.msn='drop'
 	add(garbage,gpile)
 	
 	local mup=makespr()

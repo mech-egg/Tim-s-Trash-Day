@@ -10,7 +10,8 @@ function spawn_gpile(tman)
 			gpile.spr=11
 			gpile.life=40
 			gpile.sx=tman.sx
-			gpile.id=#gpile+1
+			gpile.id=flr(rnd(1000))+#garbage
+			gpile.msn='drop'
 			add(garbage,gpile)
 	elseif rnd()<.5 then
 			gpile=makespr()
@@ -20,7 +21,8 @@ function spawn_gpile(tman)
 			gpile.spr=11
 			gpile.life=40
 			gpile.sx=tman.sx
-			gpile.id=#gpile+1
+			gpile.id=flr(rnd(1000))+#garbage
+			gpile.msn='drop'
 			add(garbage,gpile)
 	else
 			gpile=makespr()
@@ -30,7 +32,8 @@ function spawn_gpile(tman)
 			gpile.spr=12
 			gpile.life=40
 			gpile.sx=tman.sx
-			gpile.id=#gpile+1
+			gpile.id=flr(rnd(1000))+#garbage
+			gpile.msn='drop'
 			add(garbage,gpile)
 	end
 end
@@ -44,34 +47,41 @@ end
 
 --move garbage around
 function update_gpile()
-	for gpile in all(garbage) do
-		gpile.x+=gpile.sx
-		gpile.y+=gpile.sy
-		
-		
+	for pile in all(garbage) do
+		if pile.msn=='sit' then
+			--check bottom col 
+			--then drop
+		end
+		if pile.msn=='drop' then
 		--mission drop
-		--check tman turn
-		if gpile.x<=gpile.drop then
-			--drop block
-			gpile.sy=1
-			gpile.sx=0
-			--check col with block
-			--mget+fget+flag???
-			if gpile.y>=104 then
-				gpile.y=104
-				gpile.sy=0
+		
+			pile.x+=pile.sx
+			pile.y+=pile.sy
+			--check tman turn
+			if pile.x<=pile.drop then
+				--drop block
+				pile.sy=1
+				pile.sx=0
+				--check col with block
+				local lx=pile.x
+				local ly=pile.y
+				if fcol(pile,0) then
+					pile.x=lx
+					pile.y=ly-1
+					gstop(pile)
+				elseif friend_col(pile,garbage) then
+					pile.x=lx
+					pile.y=ly-1
+					gstop(pile)
+				end
 			end
 		end
-		
-		--check col with
-		--blocks and ground
-		--change to sit on col
-	
-		--mission sit
-		--stop moving
-		--check col with blocks
-		--and ground
-		--change to drop if bottom
-		--block falls
 	end
+end
+
+
+function gstop(pile)	
+	pile.sy=0
+	pile.sx=0
+	pile.msn='sit'
 end

@@ -15,7 +15,8 @@ function spawn_trashman()
 		tman.sx=-0.75
 		tman.spr=48
 		tman.msn='deliver'
-		tman.turn=55+flr(rnd(61))
+		tman.turn=120
+		--tman.turn=55+flr(rnd(61))
 		add(units,tman)
 		spawn_gpile(tman)
 end

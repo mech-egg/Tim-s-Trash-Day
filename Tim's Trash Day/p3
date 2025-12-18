@@ -33,8 +33,10 @@ function makespr()
 end
 
 function col(a,b)
+
 	local spclay=a.y
 	local spclax=a.x
+
 	if a.type=='selector' or b.type=='selector' then
 		--make selector col detect
 		--smaller
@@ -62,13 +64,14 @@ function col(a,b)
 end
 
 function friend_col(obj,arr)
-	for i=obj.id,#arr do
-		for j=i+1,#arr do
-			local	obj1=arr[i]
-			local obj2=arr[j]
-			if col(obj1,obj2) then
+	local pid=obj.id
+	for i in all(arr) do
+		if i.id!=pid then
+			if col(obj,i) then
 				return true
 			end
+		else
+			return false
 		end
 	end
 end
@@ -106,4 +109,42 @@ function pufloat(puspr,pux,puy,puposy)
 	
 	add(pickups,pu)
 	return pu
+end
+
+function fcol(tst,flag)
+	--get coordinates of plr
+	local x1=tst.x/8
+	local y1=tst.y/8
+	local x2=(tst.x+7)/8
+	local y2=(tst.y+7)/8
+	
+	--check for flag
+	local a=fget(mget(x1,y1),flag)
+	local b=fget(mget(x2,y1),flag)
+	local c=fget(mget(x1,y2),flag)
+	local d=fget(mget(x2,y2),flag)
+	
+	if a or b or c or d then
+		return true
+	else
+		return false
+	end
+end
+
+function fcol_bot(tst,flag)
+	--get coordinates of plr
+	local x1=tst.x/8
+	local y1=tst.y/8
+	local x2=(tst.x+7)/8
+	local y2=(tst.y+7)/8
+	
+	--check for flag
+	local c=fget(mget(x1,y2),flag)
+	local d=fget(mget(x2,y2),flag)
+	
+	if c or d then
+		return true
+	else
+		return false
+	end
 end
