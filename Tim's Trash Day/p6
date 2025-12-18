@@ -6,33 +6,33 @@ function spawn_gpile(tman)
 			gpile=makespr()
 			gpile.drop=tman.turn
 			gpile.x=tman.x
-			gpile.y=tman.y+8
+			gpile.y=tman.y+7
 			gpile.spr=11
 			gpile.life=40
 			gpile.sx=tman.sx
-			gpile.id=flr(rnd(1000))+#garbage
+			gpile.id=garbageid
 			gpile.msn='drop'
 			add(garbage,gpile)
 	elseif rnd()<.5 then
 			gpile=makespr()
 			gpile.drop=tman.turn
-			gpile.x=tman.x+1
-			gpile.y=tman.y+8
+			gpile.x=tman.x
+			gpile.y=tman.y+7
 			gpile.spr=11
 			gpile.life=40
 			gpile.sx=tman.sx
-			gpile.id=flr(rnd(1000))+#garbage
+			gpile.id=garbageid
 			gpile.msn='drop'
 			add(garbage,gpile)
 	else
 			gpile=makespr()
 			gpile.drop=tman.turn
-			gpile.x=tman.x+1
-			gpile.y=tman.y+8
+			gpile.x=tman.x
+			gpile.y=tman.y+7
 			gpile.spr=12
 			gpile.life=40
 			gpile.sx=tman.sx
-			gpile.id=flr(rnd(1000))+#garbage
+			gpile.id=garbageid
 			gpile.msn='drop'
 			add(garbage,gpile)
 	end
@@ -49,8 +49,10 @@ end
 function update_gpile()
 	for pile in all(garbage) do
 		if pile.msn=='sit' then
-			--check bottom col 
-			--then drop
+			if friend_col(pile,garbage)==false and fcol(pile,0)==false then
+				pile.msn='drop'
+				pile.sy=1
+			end 
 		end
 		if pile.msn=='drop' then
 		--mission drop
@@ -60,6 +62,7 @@ function update_gpile()
 			--check tman turn
 			if pile.x<=pile.drop then
 				--drop block
+				pile.x=pile.drop
 				pile.sy=1
 				pile.sx=0
 				--check col with block

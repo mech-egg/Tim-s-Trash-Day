@@ -15,8 +15,8 @@ function create_plr()
 		plr.exp=0
 		plr.maxexp=100
 		--mine
-		plr.mspd=30
-		plr.meng=5
+		plr.mspd=45
+		plr.meng=1
 		plr.mdmg=10
 		--carry
 		plr.cspd=plr.sx/2
@@ -54,8 +54,6 @@ function plr_logic()
  end
 	
 	if plr.msn=='walk' then
-		local lx=plr.x --last x
-		local ly=plr.y --last y
 		if t>wt then
 			plr.sx=1+plr.usx
 			plr.flip=false

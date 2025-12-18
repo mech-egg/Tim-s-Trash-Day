@@ -85,9 +85,9 @@ function left_ui()
 		drawspr(up)
 		print('cost',10,up.y,7)
 		spr(50,26,up.y-2)
-		print(plr.lvl+up.scost,32,up.y,9)
-		spr(49,44,up.y-2)
-		print(plr.lvl+up.bcost,50,up.y,9)
+		print(plr.lvl+up.scost,31,up.y,9)
+		spr(49,38,up.y-2)
+		print(plr.lvl+up.bcost,43,up.y,9)
 	end
 	
 	--dynamic cost

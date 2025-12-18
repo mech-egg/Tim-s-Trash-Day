@@ -16,40 +16,44 @@ function gamestart()
 	pickups={}
 	garbage={}
 	upgrades={}
+	garbageid=0
+	init_upgrades()
+	enemyfreq=0
+	scrapcount=0
+	batcount=3
+	tgpile={}
+	create_plr()
+	make_selector()
 	
-	local gpile=makespr()
-	gpile.x=72
-	gpile.y=104
-	gpile.spr=11
-	gpile.life=40
-	gpile.drop=0
-	gpile.msn='sit'
-	gpile.id=flr(rnd(1000))+#garbage
-	gpile.msn='drop'
-	add(garbage,gpile)
-	
-	local gpile=makespr()
-	gpile.x=80
-	gpile.y=104
-	gpile.spr=11
-	gpile.life=40
-	gpile.drop=0
-	gpile.msn='sit'
-	gpile.id=flr(rnd(1000))+#garbage
-	gpile.msn='drop'
-	add(garbage,gpile)
-	
-	local gpile=makespr()
-	gpile.x=88
-	gpile.y=104
-	gpile.spr=12
-	gpile.life=40
-	gpile.drop=0
-	gpile.msn='sit'
-	gpile.id=flr(rnd(1000))+#garbage
-	gpile.msn='drop'
-	add(garbage,gpile)
-	
+		local	gpile=makespr()
+			gpile.drop=40
+			gpile.x=40
+			gpile.y=104
+			gpile.spr=11
+			gpile.life=100
+			gpile.sx=0
+			gpile.id=garbageid
+			gpile.msn='sit'
+			add(garbage,gpile)
+end
+
+function update_game()
+	plr_logic()
+	tman_logic()
+	update_gpile()
+	updateui()
+		--if #garbage >10 then
+			--state='over'
+		--end
+end
+
+function update_over()
+	if btnp(🅾️) then 
+		state='start'
+	end
+end
+
+function init_upgrades()
 	local mup=makespr()
 	mup.spr=42
 	mup.x=2
@@ -85,29 +89,4 @@ function gamestart()
 	mdmgup.bcost=0
 	mdmgup.type=4
 	add(upgrades,mdmgup)
-	
-	enemyfreq=120
-	scrapcount=10
-	batcount=10
-	tgpile={}
-	create_plr()
-	make_selector()
-	--spawn_gpile()
 end
-
-function update_game()
-	plr_logic()
-	tman_logic()
-	update_gpile()
-	updateui()
-		if #garbage >10 then
-			state='over'
-		end
-end
-
-function update_over()
-	if btnp(🅾️) then 
-		state='start'
-	end
-end
-

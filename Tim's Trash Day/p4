@@ -15,10 +15,14 @@ function spawn_trashman()
 		tman.sx=-0.75
 		tman.spr=48
 		tman.msn='deliver'
-		tman.turn=120
-		--tman.turn=55+flr(rnd(61))
+		tman.turn=tman_turn()
 		add(units,tman)
-		spawn_gpile(tman)
+		if tman.turn==nil then
+			return
+		elseif tman.turn<=120 then
+			spawn_gpile(tman)
+		end
+		garbageid+=1
 end
 
 function move_tman(tman)
@@ -28,6 +32,7 @@ function move_tman(tman)
 		--msn atck
 		if tman.x>140 then
 			del(units,tman)
+			enemyfreq=0
 		elseif tman.x<=tman.turn then
 			tman.sx=2
 		end
@@ -35,8 +40,9 @@ function move_tman(tman)
 end
 
 function tman_logic()
-	if t%enemyfreq==0 then
-		if #units<1 then
+	enemyfreq-=1
+	if enemyfreq<=0 then
+		if #units<1 and plr.x<120 then
 			spawn_trashman()
 		end
 	end
@@ -44,11 +50,76 @@ function tman_logic()
 		if tman.msn=='deliver' then
 			move_tman(tman)
 		end
-	--check gpile locations
-	--drop gpile
-	--go get some more0.
-	
 	end
+end
+
+function tman_turn()
+	local turn= rnd({
+	120,
+	120,
+	120,
+	112,
+	112,
+	112,
+	112,
+	104,
+	104,
+	104,
+	104,
+	104,
+	96,
+	96,
+	96,
+	96,
+	96,
+	96,
+	88,
+	88,
+	88,
+	88,
+	88,
+	88,
+	88,
+	80,
+	80,
+	80,
+	80,
+	80,
+	80,
+	80,
+	72,
+	72,
+	72,
+	72,
+	72,
+	64,
+	64,
+	64,
+	64,
+	56,
+	56,
+	56,
+	48,
+	})
+	
+	-- collision would occur
+	for gpile in all(garbage) do
+		--check tall piles
+		--move over from tall piles
+		if gpile.y<=48 and turn==gpile.x then
+			turn=turn+8
+		end
+	--if offscreen
+	--don't deploy
+		if turn>=128 then
+			return 128
+		end
+	end
+	if turn<plr.x then
+			turn=rnd({120,112,104,96})
+		else 
+			return turn
+		end
 end
 
 

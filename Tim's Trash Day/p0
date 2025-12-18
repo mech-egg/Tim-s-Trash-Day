@@ -36,5 +36,5 @@ function _draw()
 	elseif state=='over' then
 		draw_over()
 	end
-	print(debug,120,120,7)
+	print(debug,112,120,7)
 end
