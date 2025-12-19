@@ -8,7 +8,7 @@ function spawn_gpile(tman)
 			gpile.x=tman.x
 			gpile.y=tman.y+7
 			gpile.spr=11
-			gpile.life=40
+			gpile.life=100
 			gpile.sx=tman.sx
 			gpile.id=garbageid
 			gpile.msn='drop'
@@ -19,7 +19,7 @@ function spawn_gpile(tman)
 			gpile.x=tman.x
 			gpile.y=tman.y+7
 			gpile.spr=11
-			gpile.life=40
+			gpile.life=100
 			gpile.sx=tman.sx
 			gpile.id=garbageid
 			gpile.msn='drop'
@@ -30,7 +30,7 @@ function spawn_gpile(tman)
 			gpile.x=tman.x
 			gpile.y=tman.y+7
 			gpile.spr=12
-			gpile.life=40
+			gpile.life=100
 			gpile.sx=tman.sx
 			gpile.id=garbageid
 			gpile.msn='drop'

@@ -6,7 +6,7 @@ function create_plr()
 		plr.y=104
 		plr.spr=16
 		plr.sx=1
-		plr.mxinv=5
+		plr.mxinv=1
 		plr.inv={}
 		plr.flip=false
 		plr.msn='walk'
@@ -15,16 +15,16 @@ function create_plr()
 		plr.exp=0
 		plr.maxexp=100
 		--mine
-		plr.mspd=45
-		plr.meng=1
-		plr.mdmg=10
-		--carry
+		plr.mspd=60
+		plr.meng=5
+		plr.mdmg=20
+		--slow
 		plr.cspd=plr.sx/2
-		
+		plr.cdmg=plr.mdmg/2
 		--energy
 		--max 29
 		plr.maxeng=29
-		plr.eng=29
+		plr.eng=0
 		
 		--upgrades
 		plr.usx=0
@@ -40,8 +40,8 @@ function draw_plr()
 end
 
 function plr_logic()
+	chk_inv()
 	local mblock=mget((plr.x/8)+1,plr.y/8)
-	
 	for gpile in all(garbage) do
 		if col(plr,gpile) and plr.msn!='return' then
  		plr.msn='mine'
@@ -101,35 +101,40 @@ function plr_logic()
 		end
 	elseif plr.msn=='mine' and plr.flip!=true then
 		plr.sx=0
-		rndn=rnd({1,1,1,2,3})
+		if plr.eng>0 then
+			mineditem=rnd({1,1,1,2,2,3})
+		else
+			mineditem=rnd({1,1,1,1,1,1,1,1,1,2,3,3,3})
+		end
 		if wt<t then
 			--mining float pops
 			--random drop logic
-			if rndn==1 then
+			if mineditem==1 then
 				popfloat('-',plr.x+5,plr.y-2,plr.y-8,7)
 				wt=t+plr.mspd
 				plr.exp+=3
-			elseif rndn==2 then
-				local pu=pufloat(32,plr.x+2,plr.y-2,plr.y-10)
+			elseif mineditem==2 then
 				pufloat(32,plr.x+2,plr.y-2,plr.y-10)
 				wt=t+plr.mspd-plr.umspd
-				add(plr.inv,pu)
+				add_inv_item(32,1)
 				plr.exp+=5
 			else
-				local pu=pufloat(36,plr.x,plr.y-2,plr.y-10)
-				pufloat(36,plr.x,plr.y-2,plr.y-10)	
+				pufloat(36,plr.x,plr.y-2,plr.y-10)
 				wt=t+plr.mspd-plr.umspd
-				add(plr.inv,pu)
+				add_inv_item(36,2)
 				plr.exp+=5
 			end
-			tgpile.life-=plr.mdmg
+
 			plr.eng-=(plr.meng-plr.umeng)
 			if plr.eng<=0 then
 				plr.eng=0
+				tgpile.life-=plr.cdmg
+			else
+				tgpile.life-=plr.mdmg
 			end
-				chk_inv()
 				chk_exp()
 				chk_gpile()
+				chk_inv()
 				--sounds
 				--square blinks
 		end
@@ -138,8 +143,10 @@ end
 
 
 function chk_inv()
-	if #plr.inv>=plr.mxinv and plr.msn!='return' then
-		plr.msn='return'
+	if t>wt then
+		if #plr.inv>=plr.mxinv and plr.msn!='return' then
+			plr.msn='return'
+		end
 	end
 end
 
@@ -158,23 +165,46 @@ function chk_gpile()
 end
 
 function level_plr()
-	if plr.lvl==2 then
+	--enemybuffs
+	uenemyfreq+=10
+	utmanspd+=.15
+	plr.lvl+=1
+	--inventory growth
+	if plr.lvl>=2 then
 		plr.mxinv=2
-	elseif plr.lvl==4 then
+	elseif plr.lvl>=4 then
 		plr.mxinv=3
-	elseif plr.lvl==6 then
+	elseif plr.lvl>=6 then
 		plr.mxinv=4
-	elseif plr.lvl==8 then
+	elseif plr.lvl>=8 then
 		plr.mxinv=5
 	end
-	plr.lvl+=1
+	--plr base growth
 	plr.maxeng+=1
-	plr.usx+=.1
-	plr.umdmg+=5
+	if plr.usx<=2 then
+		plr.usx+=.1
+	end
+	if plr.umdmg<=80 then
+		plr.umdmg+=5
+	end
 		--negatives
-	plr.umspd+=5
-	plr.umeng+=0.5
+		--reduces time between hits
+	if plr.umspd<=55 then
+		plr.umspd+=5
+	end
+	--reduces eng per hit
+	if plr.umeng<=4.5 then
+		plr.umeng+=0.5
+	end
+	--resets level and scales
 	plr.exp=0
 	plr.maxexp=flr(plr.maxexp*1.1)
 	--for loop level up function?
+end
+
+function add_inv_item(puspr,itype)
+	local item=makespr()
+	item.spr=puspr
+	item.type=itype
+	add(plr.inv,item)
 end

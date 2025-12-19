@@ -22,10 +22,18 @@ function updateui()
 		selector.y+=8
 	end
 	if btnp(🅾️) then
-		if plr.eng<=0 then
+		if plr.eng<=0 and batcount>0 then
 			batcount-=1
 			pufloat(36,plr.x,plr.y-2,plr.y-10)
 			plr.eng=plr.maxeng
+		elseif plr.eng<=0 and batcount<1 then
+			for item in all(plr.inv) do
+				if item.type==2 then
+					pufloat(36,plr.x,plr.y-2,plr.y-10)
+					plr.eng=plr.maxeng
+					del(plr.inv,item)
+				end
+			end
 		else
 			sfx(0)
 		end
@@ -120,7 +128,7 @@ function right_ui()
 			pal(9,8)
 		end 
 		print('slow',98,8,9)
-		print('poor',98,16,9)
+		print('weak',98,16,9)
 	end
 	
 	--inv

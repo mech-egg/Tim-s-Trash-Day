@@ -2,11 +2,12 @@
 --framework
 
 --can do
---crits
 --shutdown and player actions
 --progression
---gpile objs +placement
---for loop lvl up function
+--sounds
+--music
+--particle juice
+
 
 function _init()
 	state='start'

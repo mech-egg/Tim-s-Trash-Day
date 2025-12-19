@@ -18,9 +18,11 @@ function gamestart()
 	upgrades={}
 	garbageid=0
 	init_upgrades()
-	enemyfreq=0
+	enemyfreq=120
+	uenemyfreq=0
+	utmanspd=0
 	scrapcount=0
-	batcount=3
+	batcount=0
 	tgpile={}
 	create_plr()
 	make_selector()

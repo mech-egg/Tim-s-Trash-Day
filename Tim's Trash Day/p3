@@ -94,7 +94,7 @@ function popfloat(fltxt,flx,fly,flposy)
 	add(flts,fl)
 end
 
-function pufloat(puspr,pux,puy,puposy)
+function pufloat(puspr,pux,puy,puposy,pusx)
 	local pu=makespr()
 	pu.x=pux
 	pu.y=puy

@@ -12,10 +12,10 @@ function spawn_trashman()
 		tman.life=300
 		tman.dmg=40
 		tman.y=36
-		tman.sx=-0.75
+		tman.sx=-.75-utmanspd
 		tman.spr=48
 		tman.msn='deliver'
-		tman.turn=tman_turn()
+		tman.turn=min(tman_turn(),128)
 		add(units,tman)
 		if tman.turn==nil then
 			return
@@ -25,30 +25,29 @@ function spawn_trashman()
 		garbageid+=1
 end
 
-function move_tman(tman)
-			tman.x+=tman.sx
-		--if guy in front<8px stop
-		--if enm <8px in front stop
-		--msn atck
-		if tman.x>140 then
-			del(units,tman)
-			enemyfreq=0
-		elseif tman.x<=tman.turn then
-			tman.sx=2
-		end
-		
-end
 
 function tman_logic()
 	enemyfreq-=1
 	if enemyfreq<=0 then
 		if #units<1 and plr.x<120 then
 			spawn_trashman()
-		end
-	end
-	for tman in all(units) do
-		if tman.msn=='deliver' then
-			move_tman(tman)
+		else
+			for tman in all(units) do
+			debug=tman.turn
+			local turn=tman.turn
+				tman.x+=tman.sx
+				--if guy in front<8px stop
+				--if enm <8px in front stop
+				--msn atck
+				if tman.x<=turn then
+					tman.sx=2
+				end
+				if tman.x>140 then
+					del(units,tman)
+					enemyfreq=120-uenemyfreq
+					return
+				end
+			end
 		end
 	end
 end
@@ -116,10 +115,9 @@ function tman_turn()
 		end
 	end
 	if turn<plr.x then
-			turn=rnd({120,112,104,96})
-		else 
-			return turn
-		end
+		turn=rnd({120,112,104,96})
+	end
+	return turn
 end
 
 
