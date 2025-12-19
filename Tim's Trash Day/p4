@@ -33,7 +33,6 @@ function tman_logic()
 			spawn_trashman()
 		else
 			for tman in all(units) do
-			debug=tman.turn
 			local turn=tman.turn
 				tman.x+=tman.sx
 				--if guy in front<8px stop
@@ -115,7 +114,13 @@ function tman_turn()
 		end
 	end
 	if turn<plr.x then
-		turn=rnd({120,112,104,96})
+		if plr.x<48 then
+			turn=48
+		elseif plr.x>48 and plr.x<96 then
+			turn=rnd({88,80,72,64,56})
+		else
+			turn=rnd({120,112,104,96})
+		end
 	end
 	return turn
 end

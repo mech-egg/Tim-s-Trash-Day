@@ -7,7 +7,8 @@
 --sounds
 --music
 --particle juice
-
+--refactor upgrade costs
+--only increase after buy
 
 function _init()
 	state='start'
@@ -37,5 +38,5 @@ function _draw()
 	elseif state=='over' then
 		draw_over()
 	end
-	print(debug,112,120,7)
+	print(debug,4,50,7)
 end

@@ -32,6 +32,7 @@ function updateui()
 					pufloat(36,plr.x,plr.y-2,plr.y-10)
 					plr.eng=plr.maxeng
 					del(plr.inv,item)
+					return
 				end
 			end
 		else
@@ -166,19 +167,15 @@ for up in all(upgrades) do
 					scrapcount-=plr.lvl+up.scost
 					if up.type==1 then
 						plr.usx+=.1
-						up.bcost+=1
 						up.scost+=3
 					elseif up.type==2 then
 						plr.umspd+=5
-						up.bcost+=1
 						up.scost+=3
 					elseif up.type==3 then
 						plr.umeng+=0.5
-						up.bcost+=1
 						up.scost+=3
 					elseif up.type==4 then
 						plr.umdmg+=5
-						up.bcost+=1
 						up.scost+=3
 					end
 				else

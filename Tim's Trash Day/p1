@@ -18,11 +18,11 @@ function gamestart()
 	upgrades={}
 	garbageid=0
 	init_upgrades()
-	enemyfreq=120
+	enemyfreq=150
 	uenemyfreq=0
 	utmanspd=0
 	scrapcount=0
-	batcount=0
+	batcount=3
 	tgpile={}
 	create_plr()
 	make_selector()
@@ -30,10 +30,11 @@ function gamestart()
 		local	gpile=makespr()
 			gpile.drop=40
 			gpile.x=40
-			gpile.y=104
+			gpile.y=100
 			gpile.spr=11
 			gpile.life=100
 			gpile.sx=0
+			gpile.sy=0
 			gpile.id=garbageid
 			gpile.msn='sit'
 			add(garbage,gpile)

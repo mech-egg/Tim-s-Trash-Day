@@ -48,10 +48,13 @@ end
 --move garbage around
 function update_gpile()
 	for pile in all(garbage) do
+		debug=plr.umspd
 		if pile.msn=='sit' then
 			if friend_col(pile,garbage)==false and fcol(pile,0)==false then
 				pile.msn='drop'
 				pile.sy=1
+			else
+				gstop(pile)
 			end 
 		end
 		if pile.msn=='drop' then
@@ -61,13 +64,13 @@ function update_gpile()
 			pile.y+=pile.sy
 			--check tman turn
 			if pile.x<=pile.drop then
+				local lx=pile.x
+				local ly=pile.y
 				--drop block
 				pile.x=pile.drop
 				pile.sy=1
 				pile.sx=0
 				--check col with block
-				local lx=pile.x
-				local ly=pile.y
 				if fcol(pile,0) then
 					pile.x=lx
 					pile.y=ly-1

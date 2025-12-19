@@ -13,18 +13,20 @@ function create_plr()
 		--leveling
 		plr.lvl=1
 		plr.exp=0
-		plr.maxexp=100
+		plr.maxexp=85
 		--mine
 		plr.mspd=60
 		plr.meng=5
 		plr.mdmg=20
+		--empty
+		plr.espd=30
 		--slow
 		plr.cspd=plr.sx/2
 		plr.cdmg=plr.mdmg/2
 		--energy
 		--max 29
 		plr.maxeng=29
-		plr.eng=0
+		plr.eng=29
 		
 		--upgrades
 		plr.usx=0
@@ -32,6 +34,7 @@ function create_plr()
 		--negatives
 		plr.umspd=0
 		plr.umeng=0
+		plr.uespd=0
 end
 
 
@@ -85,13 +88,15 @@ function plr_logic()
 						pufloat(32,plr.x+1,plr.y-2,plr.y-10)
 						scrapcount+=1
 						del(plr.inv,pu)
-						wt=t+30
+						wt=t+plr.espd-plr.uespd
+						plr.exp+=2
 						return
 					elseif pu.type==2 then
 						pufloat(36,plr.x,plr.y-2,plr.y-10)
 						batcount+=1
 						del(plr.inv,pu)
-						wt=t+30
+						wt=t+plr.espd-plr.uespd
+						plr.exp+=2
 						return
 					end
 				end
@@ -111,7 +116,7 @@ function plr_logic()
 			--random drop logic
 			if mineditem==1 then
 				popfloat('-',plr.x+5,plr.y-2,plr.y-8,7)
-				wt=t+plr.mspd
+				wt=t+plr.mspd-plr.umspd
 				plr.exp+=3
 			elseif mineditem==2 then
 				pufloat(32,plr.x+2,plr.y-2,plr.y-10)
@@ -166,17 +171,17 @@ end
 
 function level_plr()
 	--enemybuffs
-	uenemyfreq+=10
+	uenemyfreq+=5
 	utmanspd+=.15
 	plr.lvl+=1
 	--inventory growth
-	if plr.lvl>=2 then
+	if plr.lvl==2 then
 		plr.mxinv=2
-	elseif plr.lvl>=4 then
+	elseif plr.lvl==4 then
 		plr.mxinv=3
-	elseif plr.lvl>=6 then
+	elseif plr.lvl==6 then
 		plr.mxinv=4
-	elseif plr.lvl>=8 then
+	elseif plr.lvl==8 then
 		plr.mxinv=5
 	end
 	--plr base growth
@@ -196,9 +201,12 @@ function level_plr()
 	if plr.umeng<=4.5 then
 		plr.umeng+=0.5
 	end
+	if plr.uespd<=25 then
+		plr.uespd+=5
+	end
 	--resets level and scales
 	plr.exp=0
-	plr.maxexp=flr(plr.maxexp*1.1)
+	plr.maxexp=flr(plr.maxexp*1.2)
 	--for loop level up function?
 end
 
