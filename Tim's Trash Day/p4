@@ -30,6 +30,7 @@ function tman_logic()
 	enemyfreq-=1
 	if enemyfreq<=0 then
 		if #units<1 and plr.x<120 then
+			sfx(18)
 			spawn_trashman()
 		else
 			for tman in all(units) do

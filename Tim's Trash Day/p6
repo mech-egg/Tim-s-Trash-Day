@@ -48,7 +48,13 @@ end
 --move garbage around
 function update_gpile()
 	for pile in all(garbage) do
-		debug=plr.umspd
+	debug2=tgpile.x
+		if pile.x-plr.x<4 then
+			if t%60==0 then
+				sfx(14)
+			end
+		end
+		debug=plr.x
 		if pile.msn=='sit' then
 			if friend_col(pile,garbage)==false and fcol(pile,0)==false then
 				pile.msn='drop'
@@ -59,7 +65,6 @@ function update_gpile()
 		end
 		if pile.msn=='drop' then
 		--mission drop
-		
 			pile.x+=pile.sx
 			pile.y+=pile.sy
 			--check tman turn

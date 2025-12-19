@@ -90,6 +90,7 @@ function plr_logic()
 						del(plr.inv,pu)
 						wt=t+plr.espd-plr.uespd
 						plr.exp+=2
+						sfx(22)
 						return
 					elseif pu.type==2 then
 						pufloat(36,plr.x,plr.y-2,plr.y-10)
@@ -97,6 +98,7 @@ function plr_logic()
 						del(plr.inv,pu)
 						wt=t+plr.espd-plr.uespd
 						plr.exp+=2
+						sfx(22)
 						return
 					end
 				end
@@ -107,7 +109,7 @@ function plr_logic()
 	elseif plr.msn=='mine' and plr.flip!=true then
 		plr.sx=0
 		if plr.eng>0 then
-			mineditem=rnd({1,1,1,2,2,3})
+			mineditem=rnd({1,1,1,1,1,2,2,3})
 		else
 			mineditem=rnd({1,1,1,1,1,1,1,1,1,2,3,3,3})
 		end
@@ -129,7 +131,7 @@ function plr_logic()
 				add_inv_item(36,2)
 				plr.exp+=5
 			end
-
+			sfx(15)
 			plr.eng-=(plr.meng-plr.umeng)
 			if plr.eng<=0 then
 				plr.eng=0
@@ -166,6 +168,7 @@ function chk_gpile()
 		wt=t
 		plr.msn='walk'
 		del(garbage,tgpile)
+		sfx(21)
 	end
 end
 
@@ -176,12 +179,10 @@ function level_plr()
 	plr.lvl+=1
 	--inventory growth
 	if plr.lvl==2 then
-		plr.mxinv=2
-	elseif plr.lvl==4 then
 		plr.mxinv=3
-	elseif plr.lvl==6 then
+	elseif plr.lvl==4 then
 		plr.mxinv=4
-	elseif plr.lvl==8 then
+	elseif plr.lvl==6 then
 		plr.mxinv=5
 	end
 	--plr base growth
@@ -208,6 +209,7 @@ function level_plr()
 	plr.exp=0
 	plr.maxexp=flr(plr.maxexp*1.2)
 	--for loop level up function?
+		sfx(10)
 end
 
 function add_inv_item(puspr,itype)

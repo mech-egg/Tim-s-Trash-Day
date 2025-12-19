@@ -26,9 +26,11 @@ function updateui()
 			batcount-=1
 			pufloat(36,plr.x,plr.y-2,plr.y-10)
 			plr.eng=plr.maxeng
+			sfx(16)
 		elseif plr.eng<=0 and batcount<1 then
 			for item in all(plr.inv) do
 				if item.type==2 then
+					sfx(16)
 					pufloat(36,plr.x,plr.y-2,plr.y-10)
 					plr.eng=plr.maxeng
 					del(plr.inv,item)
@@ -178,6 +180,7 @@ for up in all(upgrades) do
 						plr.umdmg+=5
 						up.scost+=3
 					end
+					sfx(17)
 				else
 					sfx(0)
 					return

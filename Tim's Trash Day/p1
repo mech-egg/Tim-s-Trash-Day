@@ -8,6 +8,7 @@ end
 
 function gamestart()
 	--music
+	music(0)
 	--state
 	state='game'
 	units={}
@@ -18,7 +19,7 @@ function gamestart()
 	upgrades={}
 	garbageid=0
 	init_upgrades()
-	enemyfreq=150
+	enemyfreq=13
 	uenemyfreq=0
 	utmanspd=0
 	scrapcount=0

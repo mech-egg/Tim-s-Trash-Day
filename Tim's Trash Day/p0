@@ -4,10 +4,7 @@
 --can do
 --shutdown and player actions
 --progression
---sounds
---music
 --particle juice
---refactor upgrade costs
 --only increase after buy
 
 function _init()
@@ -15,6 +12,7 @@ function _init()
 	t=0
 	wt=0
 	debug=''
+	debug2=''
 end
 
 function _update()
@@ -39,4 +37,5 @@ function _draw()
 		draw_over()
 	end
 	print(debug,4,50,7)
+	print(debug2,4,56,7)
 end
