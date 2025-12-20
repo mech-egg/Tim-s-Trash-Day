@@ -17,7 +17,7 @@ function create_plr()
 		--mine
 		plr.mspd=60
 		plr.meng=5
-		plr.mdmg=20
+		plr.mdmg=50
 		--empty
 		plr.espd=30
 		--slow
@@ -90,6 +90,7 @@ function plr_logic()
 						del(plr.inv,pu)
 						wt=t+plr.espd-plr.uespd
 						plr.exp+=2
+						item_part(plr.x+4,plr.y+4)
 						sfx(22)
 						return
 					elseif pu.type==2 then
@@ -98,6 +99,7 @@ function plr_logic()
 						del(plr.inv,pu)
 						wt=t+plr.espd-plr.uespd
 						plr.exp+=2
+						item_part(plr.x+4,plr.y+4)
 						sfx(22)
 						return
 					end
@@ -125,13 +127,16 @@ function plr_logic()
 				wt=t+plr.mspd-plr.umspd
 				add_inv_item(32,1)
 				plr.exp+=5
+				item_part(plr.x+4,plr.y+4)
 			else
 				pufloat(36,plr.x,plr.y-2,plr.y-10)
 				wt=t+plr.mspd-plr.umspd
 				add_inv_item(36,2)
 				plr.exp+=5
+				item_part(plr.x+4,plr.y+4)
 			end
 			sfx(15)
+			block_hit(tgpile.x+4,tgpile.y+4)
 			plr.eng-=(plr.meng-plr.umeng)
 			if plr.eng<=0 then
 				plr.eng=0
@@ -166,6 +171,7 @@ end
 function chk_gpile()
 	if tgpile.life<=0 then
 		wt=t
+		block_destroy(tgpile.x+4,tgpile.y+4)
 		plr.msn='walk'
 		del(garbage,tgpile)
 		sfx(21)

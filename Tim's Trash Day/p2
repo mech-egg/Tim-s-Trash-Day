@@ -20,6 +20,8 @@ function draw_game()
 	draw_garbage()
 	draw_plrui()
 	draw_selector()
+	draw_p()
+	draw_pp()
 end
 
 function draw_over()
@@ -53,9 +55,79 @@ function draw_pu()
 	for pu in all(pickups) do
 		drawspr(pu)
 		pu.y+=(pu.posy-pu.y)/7
+		pu.x+=(plr.x-pu.x)/2
 		pu.age+=1
 		if pu.age>=30 then
 			del(pickups,pu)	
+		end
+	end
+end
+
+function draw_p()
+	for p in all(parts) do
+		local pc=7
+		--logic for color change
+		if p.age>22 then
+			pc=1
+		elseif p.age>18 then
+			pc=13
+		elseif p.age>12 then
+			pc=5
+		elseif p.age>8 then
+			pc=6
+		end
+		p.age+=1
+		p.sx=p.sx*.85
+		p.sy=p.sy*.85
+		circfill(p.x,p.y,p.rd,pc)
+		p.x+=p.sx
+		p.y+=p.sy
+		if p.age>15 and p.rd>0.5 then
+			p.rd-=.5
+		end
+		if p.age>p.maxage then
+			del(parts,p)
+		end
+	end
+end
+
+
+function draw_pp()
+	for pp in all(pparts) do
+		local pc=11
+		--logic for color change
+		--[[if p.age>22 then
+			pc=1
+		elseif p.age>18 then
+			pc=13
+		elseif p.age>12 then
+			pc=5
+		elseif p.age>8 then
+			pc=6
+		end--]]
+
+		pp.age+=1
+
+		circfill(pp.x,pp.y,pp.rd,pc)
+		if pp.age>15 then
+			pp.sx=pp.sx*1.25
+			pp.sy=pp.sy*1.25
+			pp.x-=pp.sx+plr.sx*2.5
+			pp.y-=pp.sy
+			if abs(pp.x-plr.x+4)<2 or pp.y>plr.y+4 then
+				del(pparts,pp)
+			end
+		else
+			pp.sx=pp.sx*.85
+			pp.sy=pp.sy*.85
+			pp.x+=pp.sx
+			pp.y+=pp.sy
+		end
+		if pp.age>15 and pp.rd>0.5 then
+			pp.rd-=.5
+		end
+		if pp.age>pp.maxage then
+			del(pparts,pp)
 		end
 	end
 end

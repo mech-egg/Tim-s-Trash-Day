@@ -48,8 +48,8 @@ end
 --move garbage around
 function update_gpile()
 	for pile in all(garbage) do
-	debug2=tgpile.x
-		if pile.x-plr.x<4 then
+	debug2=pparts[1]
+		if abs(pile.x-plr.x)<4 and pile.y-plr.y<2 then
 			if t%60==0 then
 				sfx(14)
 			end

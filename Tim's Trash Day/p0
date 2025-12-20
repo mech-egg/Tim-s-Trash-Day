@@ -4,7 +4,6 @@
 --can do
 --shutdown and player actions
 --progression
---particle juice
 --only increase after buy
 
 function _init()

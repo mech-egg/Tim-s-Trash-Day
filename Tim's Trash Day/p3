@@ -152,4 +152,49 @@ function btm_col(a,b)
 	return true
 end
 
+function block_hit(x,y)
+	for i=1,25 do 
+		local p={
+			x=x,
+			y=y,
+			age=rnd(2),
+			maxage=10+rnd(15),
+			rd=0,
+			sx=rnd()*4-2,
+			sy=rnd()*2-2
+		}
+		add(parts,p)
+	end
+end
+
+function block_destroy(x,y)
+	for i=1,30 do 
+		local p={
+			x=x,
+			y=y,
+			age=rnd(2),
+			maxage=20+rnd(15),
+			rd=rnd(3),
+			sx=(rnd()-.5)*4,
+			sy=(rnd()-.5)*4,
+		}
+		add(parts,p)
+	end
+end
+
+function item_part(x,y)
+	for i=1,20  do 
+		local pp={
+			x=x,
+			y=y,
+			age=rnd(2),
+			maxage=20+rnd(15),
+			rd=rnd(2),
+			sx=(rnd()-.5)*4,
+			sy=rnd()*-4,
+		}
+		add(pparts,pp)
+	end
+end
+
 
