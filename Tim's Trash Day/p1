@@ -1,14 +1,18 @@
 --update
 
 function update_start()
-	if btnp(🅾️) then
-		gamestart()
+	if t>lockout then
+		if btnp(🅾️) then
+			state='intro'
+			lockout=t+120
+		end
 	end
 end
 
 function gamestart()
 	--music
---	music(0)
+	--music(0)
+
 	--state
 	state='game'
 	units={}
@@ -24,7 +28,7 @@ function gamestart()
 	garbageid=0
 	init_upgrades()
 	
-	enemyfreq=13
+	enemyfreq=130
 	uenemyfreq=0
 	utmanspd=0
 	
@@ -49,10 +53,16 @@ function gamestart()
 end
 
 function update_game()
+	if not stat(57) then
+		music(0)
+		music(9)
+		music(0)
+	end
 	plr_logic()
 	tman_logic()
 	update_gpile()
 	updateui()
+
 		--if #garbage >10 then
 			--state='over'
 		--end
@@ -72,6 +82,7 @@ function init_upgrades()
 	mup.scost=0
 	mup.bcost=0
 	mup.type=1
+	mup.txt='spd+'
 	add(upgrades,mup)
 	
 	local mspdup=makespr()
@@ -81,6 +92,7 @@ function init_upgrades()
 	mspdup.scost=0
 	mspdup.bcost=0
 	mspdup.type=2
+	mspdup.txt='spd+'
 	add(upgrades,mspdup)
 	
 	local mengup=makespr()
@@ -90,6 +102,7 @@ function init_upgrades()
 	mengup.scost=0
 	mengup.bcost=0
 	mengup.type=3
+	mengup.txt='eng+'
 	add(upgrades,mengup)
 	
 	local mdmgup=makespr()
@@ -99,5 +112,98 @@ function init_upgrades()
 	mdmgup.scost=0
 	mdmgup.bcost=0
 	mdmgup.type=4
+	mdmgup.txt='dmg+'
 	add(upgrades,mdmgup)
+end
+
+function update_intro()
+	if t>lockout then
+		if btnp(🅾️) then 
+			state='introscene'
+			lockout=t+180
+		end
+	end
+end
+
+function update_win()
+if t>lockout then
+		if btnp(🅾️) then 
+			state='end'
+			lockout=t+180
+		end
+	end
+end 
+
+function update_end()
+	if t>lockout then
+		if btnp(🅾️) then 
+			state='endscene'
+			lockout=t+120
+		end
+	end
+end
+
+function update_intro_scene()
+
+	if #units<1 and plr.x<120 then
+			sfx(18)
+			spawn_trashman()
+	end
+	for tman in all(units) do
+		tman.y=56
+		tman.x+=tman.sx
+			if tman.x<=40 then
+				tman.sx=2
+			end
+			if tman.x>140 then
+				del(units,tman)
+				state='intro2'
+				lockout=t+120
+			end
+		end
+		
+		for pile in all(garbage) do
+			if pile.y<60 then
+				pile.y=64
+			end
+			if pile.spr==12 then
+				pile.spr=11
+			end
+			pile.drop=40
+			pile.x+=pile.sx
+			pile.y+=pile.sy
+			--check tman turn
+			if pile.x<=pile.drop then
+				--drop block
+				local lx=pile.x
+				local ly=pile.y
+				pile.x=pile.drop
+				pile.sy=1
+				pile.sx=0
+				--check col with block
+				if fcol(pile,0) then
+					pile.x=lx
+					pile.y=ly-1
+					gstop(pile)
+				end
+			end
+		end
+end
+
+function update_intro2()
+	if t>lockout then
+		if btnp(🅾️) then 
+			gamestart()
+			lockout=t+120
+		end
+	end
+end
+
+function update_endscene()
+	if t>lockout then
+		if btnp(🅾️) then 
+			_init()
+			lockout=t+120
+		end
+	end
 end

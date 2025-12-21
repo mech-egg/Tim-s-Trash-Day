@@ -1,17 +1,23 @@
 --tim's terrible trash day
---framework
-
---can do
---shutdown and player actions
---progression
---only increase after buy
 
 function _init()
-	state='start'
+	state='intro2'
 	t=0
 	wt=0
-	debug=''
-	debug2=''
+	pwt=0
+	lockout=120
+	units={}
+	enms={}
+	flts={}
+	pickups={}
+	garbage={}
+	upgrades={}
+	parts={}
+	pparts={}
+	tgpile={}
+	garbageid=0
+	utmanspd=0
+	create_plr()
 end
 
 function _update()
@@ -19,10 +25,22 @@ function _update()
 	
 	if state=='start' then
 		update_start()
+	elseif state=='intro'then
+		update_intro()
+	elseif state=='introscene'then
+		update_intro_scene()
+	elseif state=='intro2'then
+		update_intro2()
 	elseif state=='game' then
 		update_game()
 	elseif state=='over' then
 		update_over()
+	elseif state=='win' then
+		update_win()
+	elseif state=='end' then
+		update_end()
+	elseif state=='endscene' then
+		update_endscene()
 	end
 end
 
@@ -30,11 +48,22 @@ function _draw()
 	cls()
 	if state=='start' then
 		draw_start()
+	elseif state=='intro'then
+		draw_intro()
+	elseif state=='introscene'then
+		draw_intro_scene()
+	elseif state=='intro2'then
+		draw_intro2()
 	elseif state=='game' then
 		draw_game()
 	elseif state=='over' then
 		draw_over()
+	elseif state=='win' then
+		draw_win()
+	elseif state=='end' then
+		draw_end()
+	elseif state=='endscene' then
+		draw_endscene()
 	end
-	print(debug,4,50,7)
-	print(debug2,4,56,7)
+	print(debug,64,64,7)
 end

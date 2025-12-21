@@ -7,7 +7,56 @@ function draw_start()
 	if t%30>10 then
 		pal(6,7)
 	end
-	cprint('press 🅾️ to begin',64,60,6)
+	cprint('press 🅾️ to begin',64,84,6)
+end
+
+function draw_intro()
+	cls(17)
+	pal()
+	cprint('tim received a notice',64,40,6)
+	cprint('that robot city council',64,48,6)
+	cprint('has rezoned his front yard',64,56,6)
+	cprint('as a trash heap',64,64,6)
+	if t%30>10 then
+		pal(6,7)
+	end
+	cprint('press 🅾️ to continue',64,84,6)
+end
+
+function draw_intro2()
+	cls(17)
+	pal()
+	cprint('help tim get through',64,40,6)
+	cprint('press x to select upgrades and',64,48,6)
+	cprint('clear the trash from the roof',64,56,6)
+	cprint('press z to charge battery',64,64,6)
+	if t%30>10 then
+		pal(6,7)
+	end
+	cprint('press 🅾️ to continue',64,84,6)
+end
+
+function draw_win()
+	cls(17)
+	pal()
+	cprint('thanks to you',64,40,6)
+	cprint('tim made it to his ',64,48,6)
+	cprint('council hearing',64,56,6)
+	if t%30>10 then
+		pal(6,7)
+	end
+	cprint('press 🅾️ to continue',64,84,6)
+end
+
+function draw_end()
+	cls(17)
+	pal()
+	cprint('unfortunately',64,40,6)
+	cprint('they denied his petition',64,48,6)
+	if t%30>10 then
+		pal(6,7)
+	end
+	cprint('press 🅾️ to continue',64,84,6)
 end
 
 function draw_game()
@@ -22,6 +71,9 @@ function draw_game()
 	draw_selector()
 	draw_p()
 	draw_pp()
+	if plr.eng<=0 then
+		pal(12,8)
+	end
 end
 
 function draw_over()
@@ -54,8 +106,11 @@ end
 function draw_pu()
 	for pu in all(pickups) do
 		drawspr(pu)
+		debug=pu.src
 		pu.y+=(pu.posy-pu.y)/7
-		pu.x+=(plr.x-pu.x)/2
+		if pu.src==1 then
+			pu.x+=(plr.x-pu.x)/2
+		end
 		pu.age+=1
 		if pu.age>=30 then
 			del(pickups,pu)	
@@ -95,26 +150,20 @@ end
 function draw_pp()
 	for pp in all(pparts) do
 		local pc=11
-		--logic for color change
-		--[[if p.age>22 then
-			pc=1
-		elseif p.age>18 then
-			pc=13
-		elseif p.age>12 then
-			pc=5
-		elseif p.age>8 then
-			pc=6
-		end--]]
-
+		if pp.clr==1 then
+			pc=10
+		end
 		pp.age+=1
 
 		circfill(pp.x,pp.y,pp.rd,pc)
 		if pp.age>15 then
-			pp.sx=pp.sx*1.25
+			pp.sx=(pp.sx)*1.75
 			pp.sy=pp.sy*1.25
-			pp.x-=pp.sx+plr.sx*2.5
+			pp.x+=(plr.x+4-pp.x)/6
 			pp.y-=pp.sy
-			if abs(pp.x-plr.x+4)<2 or pp.y>plr.y+4 then
+		--	if abs(plr.x+4-pp.x)<2 and pp.y>plr.y+4 then
+				--del(pparts,pp)
+			if pp.y>108 then
 				del(pparts,pp)
 			end
 		else
@@ -130,4 +179,27 @@ function draw_pp()
 			del(pparts,pp)
 		end
 	end
+end
+
+function draw_intro_scene()
+	cls()
+	map(0,17)
+	pal()
+	draw_tmen()
+	draw_plr()
+	draw_floats()
+	draw_pu()
+	draw_garbage()
+end
+
+function draw_endscene()
+	map(17,0)
+	pal()
+	create_plr()
+	draw_plr()
+	cprint('victory?',64,20,6)
+	if t%30>10 then
+		pal(6,7)
+	end
+	cprint('press 🅾️ to play again',64,40,6)
 end

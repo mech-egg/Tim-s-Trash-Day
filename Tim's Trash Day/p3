@@ -94,16 +94,17 @@ function popfloat(fltxt,flx,fly,flposy)
 	add(flts,fl)
 end
 
-function pufloat(puspr,pux,puy,puposy,pusx)
+function pufloat(puspr,pux,puy,puposy,pusrc)
 	local pu=makespr()
 	pu.x=pux
 	pu.y=puy
 	pu.posy=puposy
 	pu.spr=puspr
 	pu.age=0
+	pu.src=pusrc
 	if puspr==32 then
 		pu.type=1
-	else
+	elseif puspr==36 then
 		pu.type=2
 	end
 	
@@ -182,16 +183,17 @@ function block_destroy(x,y)
 	end
 end
 
-function item_part(x,y)
+function item_part(x,y,clr)
 	for i=1,20  do 
 		local pp={
 			x=x,
 			y=y,
 			age=rnd(2),
-			maxage=20+rnd(15),
+			maxage=25+rnd(20),
 			rd=rnd(2),
-			sx=(rnd()-.5)*4,
-			sy=rnd()*-4,
+			sx=(rnd()-.5)*2.5,
+			sy=rnd()*-5,
+			clr=clr
 		}
 		add(pparts,pp)
 	end

@@ -17,7 +17,7 @@ function create_plr()
 		--mine
 		plr.mspd=60
 		plr.meng=5
-		plr.mdmg=50
+		plr.mdmg=20
 		--empty
 		plr.espd=30
 		--slow
@@ -39,6 +39,9 @@ end
 
 
 function draw_plr()
+	if plr.eng<=0 then
+		pal(12,8)
+	end
 	drawspr(plr)
 end
 
@@ -58,23 +61,26 @@ function plr_logic()
 	
 	if plr.msn=='walk' then
 		if t>wt then
-			plr.sx=1+plr.usx
+			plr.sx=1
 			plr.flip=false
 			if plr.eng>0 then
-				plr.x+=plr.sx
+				plr.x+=plr.sx+plr.usx
 			else
 				plr.x+=plr.cspd
 			end
 			if plr.x>132 then
+				music(-1,150)
+				sfx(13)
 				state='win'
+				lockout=t+120
 			end
 		end
 	elseif plr.msn=='return'then
 		if t>wt then
 			plr.flip=true
-			plr.sx=1+plr.usx
+			plr.sx=1
 				if plr.eng>0 then
-					plr.x-=plr.sx
+					plr.x-=plr.sx+plr.usx
 				else
 					plr.x-=plr.cspd
 				end
@@ -90,7 +96,7 @@ function plr_logic()
 						del(plr.inv,pu)
 						wt=t+plr.espd-plr.uespd
 						plr.exp+=2
-						item_part(plr.x+4,plr.y+4)
+						item_part(plr.x+4,plr.y+2)
 						sfx(22)
 						return
 					elseif pu.type==2 then
@@ -99,7 +105,7 @@ function plr_logic()
 						del(plr.inv,pu)
 						wt=t+plr.espd-plr.uespd
 						plr.exp+=2
-						item_part(plr.x+4,plr.y+4)
+						item_part(plr.x+4,plr.y+2)
 						sfx(22)
 						return
 					end
@@ -123,13 +129,13 @@ function plr_logic()
 				wt=t+plr.mspd-plr.umspd
 				plr.exp+=3
 			elseif mineditem==2 then
-				pufloat(32,plr.x+2,plr.y-2,plr.y-10)
+				pufloat(32,plr.x+2,plr.y-2,plr.y-10,1)
 				wt=t+plr.mspd-plr.umspd
 				add_inv_item(32,1)
 				plr.exp+=5
 				item_part(plr.x+4,plr.y+4)
 			else
-				pufloat(36,plr.x,plr.y-2,plr.y-10)
+				pufloat(36,plr.x,plr.y-2,plr.y-10,1)
 				wt=t+plr.mspd-plr.umspd
 				add_inv_item(36,2)
 				plr.exp+=5
@@ -180,7 +186,7 @@ end
 
 function level_plr()
 	--enemybuffs
-	uenemyfreq+=5
+	uenemyfreq+=7
 	utmanspd+=.15
 	plr.lvl+=1
 	--inventory growth
@@ -224,3 +230,4 @@ function add_inv_item(puspr,itype)
 	item.type=itype
 	add(plr.inv,item)
 end
+

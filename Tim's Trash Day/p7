@@ -9,36 +9,41 @@ function draw_plrui()
 end
 
 function updateui()
-	if btnp(⬅️) then
-		selector.x-=8
-	end
-	if btnp(➡️) then
-		selector.x+=8
-	end
 	if btnp(⬆️) then
 		selector.y-=8
+		if selector.spcl==true then
+			selector.spcl=false
+			selector.y=40
+		end
 	end
 	if btnp(⬇️) then
 		selector.y+=8
+		if selector.y>40 then
+			selector.spcl=true
+		end
 	end
 	if btnp(🅾️) then
-		if plr.eng<=0 and batcount>0 then
-			batcount-=1
-			pufloat(36,plr.x,plr.y-2,plr.y-10)
-			plr.eng=plr.maxeng
-			sfx(16)
-		elseif plr.eng<=0 and batcount<1 then
-			for item in all(plr.inv) do
-				if item.type==2 then
-					sfx(16)
-					pufloat(36,plr.x,plr.y-2,plr.y-10)
-					plr.eng=plr.maxeng
-					del(plr.inv,item)
-					return
+		if lockout<t then
+			if plr.eng<=0 and batcount>0 then
+				batcount-=1
+				pufloat(36,plr.x,plr.y-2,plr.y-10,1)
+				plr.eng=plr.maxeng
+				item_part(plr.x+4,plr.y+4,1)
+				sfx(16)
+			elseif plr.eng<=0 and batcount<1 then
+				for item in all(plr.inv) do
+					if item.type==2 then
+						sfx(16)
+						pufloat(36,plr.x,plr.y-2,plr.y-10,1)
+						plr.eng=plr.maxeng
+						item_part(plr.x+4,plr.y+2,1)
+						del(plr.inv,item)
+						return
+					end
 				end
+			else
+				sfx(0)
 			end
-		else
-			sfx(0)
 		end
 	end
 	upgrade_system()
@@ -53,6 +58,7 @@ function make_selector()
 		selector.type='selector'
 		selector.colw=4
 		selector.colh=4
+		selector.spcl=true
 end
 
 function draw_selector()
@@ -88,26 +94,28 @@ function left_ui()
 	if plr.exp>0 then
 		rectfill(17,9,17+flr((expamt*42)),13,11)
 	end
-	
-
-	--move speed
-	
+	--upgrades
 	for up in all(upgrades) do
 		drawspr(up)
-		print('cost',10,up.y,7)
+		print(up.txt,10,up.y,7)
 		spr(50,26,up.y-2)
 		print(plr.lvl+up.scost,31,up.y,9)
 		spr(49,38,up.y-2)
-		print(plr.lvl+up.bcost,43,up.y,9)
+		print('1',43,up.y,9)
 	end
-	
-	--dynamic cost
-	--buildings??
-	--scrap melter
-		--production speed
-	--battery charger
-	--trash compactor
-	
+	--plr attack cooldown bar
+	local atkcd=abs(pwt-t)
+	local cdp=atkcd/(plr.mspd-plr.umspd)
+	rect(0,48,47,52,6)
+	if pwt>=t then
+		rectfill(1,49,0+flr((cdp*46)),51,5)
+	else
+		rectfill(1,49,46,51,7)
+	end
+	if selector.spcl==true then
+		selector.x=0
+		selector.y=64
+	end
 end
 	
 function right_ui()
@@ -149,7 +157,7 @@ function right_ui()
 		end
 	
 	--charge bar
-	engamt=plr.eng/plr.maxeng
+	local engamt=plr.eng/plr.maxeng
 	print('charge: ',69,0,7)
 	rect(96,0,127,4,6)
 	if plr.eng>0 then
@@ -160,30 +168,60 @@ function right_ui()
 end
 
 function upgrade_system()
-for up in all(upgrades) do
-		if col(selector,up) then
-			if btnp(❎) then
-				if plr.lvl+up.bcost<=batcount and
-				plr.lvl+up.scost<=scrapcount then
-					batcount-=plr.lvl+up.bcost
-					scrapcount-=plr.lvl+up.scost
-					if up.type==1 then
-						plr.usx+=.1
-						up.scost+=3
-					elseif up.type==2 then
-						plr.umspd+=5
-						up.scost+=3
-					elseif up.type==3 then
-						plr.umeng+=0.5
-						up.scost+=3
-					elseif up.type==4 then
-						plr.umdmg+=5
-						up.scost+=3
+	if selector.spcl==true then
+		if btnp(❎) then
+			if lockout<t then
+				if pwt<t then
+					mineditem=rnd({1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,3}) 
+					local s=selector
+					if mineditem==1 then
+						popfloat('-',s.x+5,s.y-2,s.y-8,7,'plr')
+						pwt=t+plr.mspd-plr.umspd
+						block_hit(selector.x+4,selector.y+4)
+					elseif mineditem==2 then
+						pufloat(32,s.x+2,s.y-2,s.y-10,'plr')
+						pwt=t+plr.mspd-plr.umspd
+						scrapcount+=1
+						block_hit(selector.x+4,selector.y+4)
+					else
+						pufloat(36,s.x,s.y-2,s.y-10,'plr')
+						pwt=t+plr.mspd-plr.umspd
+						batcount+=1
+						block_hit(selector.x+4,selector.y+4)
 					end
-					sfx(17)
+					sfx(15)
 				else
 					sfx(0)
-					return
+					lockout=t+30
+				end
+			end
+		end
+	else
+		for up in all(upgrades) do
+			if col(selector,up) then
+				if btnp(❎) then
+					if batcount>=1 and
+					plr.lvl+up.scost<=scrapcount then
+						batcount-=1
+						scrapcount-=plr.lvl+up.scost
+						if up.type==1 then
+							plr.usx+=.1
+							up.scost+=3
+						elseif up.type==2 then
+							plr.umspd+=5
+							up.scost+=3
+						elseif up.type==3 then
+							plr.umeng+=0.5
+							up.scost+=3
+						elseif up.type==4 then
+							plr.umdmg+=5
+							up.scost+=3
+						end
+						sfx(17)
+					else
+						sfx(0)
+						return
+					end
 				end
 			end
 		end

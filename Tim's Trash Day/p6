@@ -9,7 +9,7 @@ function spawn_gpile(tman)
 			gpile.y=tman.y+7
 			gpile.spr=11
 			gpile.life=100
-			gpile.sx=tman.sx
+			gpile.sx=tman.sx-utmanspd
 			gpile.id=garbageid
 			gpile.msn='drop'
 			add(garbage,gpile)
@@ -20,7 +20,7 @@ function spawn_gpile(tman)
 			gpile.y=tman.y+7
 			gpile.spr=11
 			gpile.life=100
-			gpile.sx=tman.sx
+			gpile.sx=tman.sx-utmanspd
 			gpile.id=garbageid
 			gpile.msn='drop'
 			add(garbage,gpile)
@@ -31,7 +31,7 @@ function spawn_gpile(tman)
 			gpile.y=tman.y+7
 			gpile.spr=12
 			gpile.life=100
-			gpile.sx=tman.sx
+			gpile.sx=tman.sx-utmanspd
 			gpile.id=garbageid
 			gpile.msn='drop'
 			add(garbage,gpile)
@@ -48,13 +48,16 @@ end
 --move garbage around
 function update_gpile()
 	for pile in all(garbage) do
-	debug2=pparts[1]
-		if abs(pile.x-plr.x)<4 and pile.y-plr.y<2 then
-			if t%60==0 then
+		local psx=plr.sx
+		if abs(pile.x-plr.x)<6 and abs(pile.y-plr.y)<4 then
+			plr.sx=plr.cspd
+			if t%30==0 then
 				sfx(14)
 			end
+		else
+			plr.sx=psx
 		end
-		debug=plr.x
+		
 		if pile.msn=='sit' then
 			if friend_col(pile,garbage)==false and fcol(pile,0)==false then
 				pile.msn='drop'

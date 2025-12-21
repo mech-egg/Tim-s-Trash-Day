@@ -12,7 +12,7 @@ function spawn_trashman()
 		tman.life=300
 		tman.dmg=40
 		tman.y=36
-		tman.sx=-.75-utmanspd
+		tman.sx=-.75
 		tman.spr=48
 		tman.msn='deliver'
 		tman.turn=min(tman_turn(),128)
@@ -35,7 +35,7 @@ function tman_logic()
 		else
 			for tman in all(units) do
 			local turn=tman.turn
-				tman.x+=tman.sx
+				tman.x+=tman.sx-utmanspd
 				--if guy in front<8px stop
 				--if enm <8px in front stop
 				--msn atck
