@@ -91,7 +91,7 @@ function plr_logic()
 			if t>wt then
 				for pu in all(plr.inv) do
 					if pu.type==1 then
-						pufloat(32,plr.x+1,plr.y-2,plr.y-10)
+						pufloat(32,plr.x,plr.y-2,plr.y-10)
 						scrapcount+=1
 						del(plr.inv,pu)
 						wt=t+plr.espd-plr.uespd
@@ -129,7 +129,7 @@ function plr_logic()
 				wt=t+plr.mspd-plr.umspd
 				plr.exp+=3
 			elseif mineditem==2 then
-				pufloat(32,plr.x+2,plr.y-2,plr.y-10,1)
+				pufloat(32,plr.x+4,plr.y-2,plr.y-10,1)
 				wt=t+plr.mspd-plr.umspd
 				add_inv_item(32,1)
 				plr.exp+=5

@@ -107,7 +107,9 @@ function draw_pu()
 	for pu in all(pickups) do
 		drawspr(pu)
 		pu.y+=(pu.posy-pu.y)/7
-		if pu.src==1 then
+		if pu.spr==32 and pu.src==1 then
+			pu.x+=(plr.x+2-pu.x)/2
+		elseif pu.spr==36 and pu.src==1 then
 			pu.x+=(plr.x-pu.x)/2
 		end
 		pu.age+=1
