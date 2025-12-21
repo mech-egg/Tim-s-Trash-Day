@@ -106,7 +106,6 @@ end
 function draw_pu()
 	for pu in all(pickups) do
 		drawspr(pu)
-		debug=pu.src
 		pu.y+=(pu.posy-pu.y)/7
 		if pu.src==1 then
 			pu.x+=(plr.x-pu.x)/2

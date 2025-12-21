@@ -1,7 +1,7 @@
 --tim's terrible trash day
 
 function _init()
-	state='intro2'
+	state='start'
 	t=0
 	wt=0
 	pwt=0
@@ -65,5 +65,4 @@ function _draw()
 	elseif state=='endscene' then
 		draw_endscene()
 	end
-	print(debug,64,64,7)
 end
