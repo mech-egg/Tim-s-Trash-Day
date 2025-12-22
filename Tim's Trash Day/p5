@@ -47,6 +47,7 @@ end
 
 function plr_logic()
 	chk_inv()
+	local lsx=plr.x
 	local mblock=mget((plr.x/8)+1,plr.y/8)
 	for gpile in all(garbage) do
 		if col(plr,gpile) and plr.msn!='return' then
@@ -116,6 +117,7 @@ function plr_logic()
 		end
 	elseif plr.msn=='mine' and plr.flip!=true then
 		plr.sx=0
+		plr.x=abs(lsx)
 		if plr.eng>0 then
 			mineditem=rnd({1,1,1,1,1,2,2,3})
 		else

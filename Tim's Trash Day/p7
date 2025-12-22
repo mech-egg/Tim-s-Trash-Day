@@ -112,6 +112,13 @@ function left_ui()
 	else
 		rectfill(1,49,46,51,7)
 	end
+		if selector.spcl==true then
+			if lockout>t or pwt>=t then
+				print("❎",50,48,9)
+			else
+				print("❎",50,48,7)
+			end
+		end
 	if selector.spcl==true then
 		selector.x=0
 		selector.y=64
@@ -191,7 +198,6 @@ function upgrade_system()
 					end
 					sfx(15)
 				else
-					sfx(0)
 					lockout=t+30
 				end
 			end

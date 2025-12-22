@@ -55,8 +55,6 @@ end
 function update_game()
 	if not stat(57) then
 		music(0)
-		music(9)
-		music(0)
 	end
 	plr_logic()
 	tman_logic()

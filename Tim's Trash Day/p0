@@ -2,7 +2,7 @@
 
 function _init()
 	state='start'
-	music(9)
+	music(0)
 	t=0
 	wt=0
 	pwt=0
